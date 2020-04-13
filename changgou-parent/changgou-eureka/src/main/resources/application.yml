@@ -1,0 +1,25 @@
+server:
+  port: 7000
+spring:
+  application:
+    name: eureka-service
+  security:
+    user:
+      name: song
+      password: song
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.ip-address}:${server.port}/eureka
+    fetch-registry: false
+    register-with-eureka: false
+
+  instance:
+    ip-address: localhost
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

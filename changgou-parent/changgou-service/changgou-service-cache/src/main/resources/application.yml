@@ -1,0 +1,12 @@
+server:
+  port: 1000
+spring:
+  application:
+    name: cache
+  redis:
+    jedis:
+      pool:
+        max-active: 100
+    host: localhost
+    port: 6379
+    password:
