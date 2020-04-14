@@ -80,8 +80,9 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public Result queryById(Integer id) {
-        if(id==1)
-        throw new RuntimeException("测试");
+        if(id==1) {
+            throw new RuntimeException("测试");
+        }
         Brand brand = brandMapper.selectByPrimaryKey(id);
         return new Result(true, StatusCode.OK, "查询成功", brand);
     }

@@ -3,6 +3,7 @@ server:
 spring:
   application:
     name: goods
+
   datasource:
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -47,6 +48,15 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
+
+  sleuth:
+    sampler:
+      probability: 1
+  zipkin:
+    base-url: http://127.0.0.1:9411/
+    service:
+      name: goods
+
 eureka:
   client:
     service-url:

@@ -1,8 +1,8 @@
 server:
-  port: 8000
+  port: 8100
 spring:
   application:
-    name: goods
+    name: user
 
   datasource:
     password: root
@@ -44,10 +44,6 @@ spring:
         login-username: admin
         login-password: admin
 
-  servlet:
-    multipart:
-      max-file-size: 100MB
-      max-request-size: 100MB
 
   sleuth:
     sampler:
@@ -55,7 +51,23 @@ spring:
   zipkin:
     base-url: http://127.0.0.1:9411/
     service:
-      name: goods
+      name: user
+  redis:
+    host: localhost
+    timeout: 5000
+
+  cache:
+    type: caffeine
+    caffeine:
+      spec: initialCapacity=50,maximumSize=500,expireAfterWrite=15s
+
+
+# 配置redis的缓存
+#  cache:
+#    redis:
+#      key-prefix: "REDIS_USER_"
+#      use-key-prefix: true
+#      time-to-live: 15
 
 eureka:
   client:
@@ -63,9 +75,24 @@ eureka:
       defaultZone: http://song:song@127.0.0.1:7000/eureka
   instance:
     prefer-ip-address: true
+
+
 feign:
   hystrix:
     enabled: true
-#mybatis:
-#  type-aliases-package: comm.song.goods.pojo
-#  mapper-locations: classpass:mapper/*.xml
+
+mybatis:
+  type-aliases-package: com.song.entity
+  mapper-locations: classpath:/mapper/*.xml
+  #开启二级缓存 基于namespace下的mapper
+  configuration:
+    cache-enabled: true
+
+logging:
+  level:
+    root: info
+#定向的包的日志级别
+    com:
+      song:
+        controller: debug
+

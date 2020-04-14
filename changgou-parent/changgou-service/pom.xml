@@ -16,7 +16,7 @@
         <module>changgou-service-file</module>
         <module>changgou-service-cache</module>
         <module>login</module>
-        <module>cahnggou-service-user</module>
+        <module>changgou-service-user</module>
     </modules>
     <dependencies>
         <dependency>
