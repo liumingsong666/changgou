@@ -5,6 +5,7 @@
     <resultMap type="com.song.entity.User" id="UserMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
         <result property="age" column="age" jdbcType="INTEGER"/>
         <result property="phone" column="phone" jdbcType="INTEGER"/>
         <result property="loginTime" column="login_time" jdbcType="TIMESTAMP"/>
@@ -13,7 +14,7 @@
     <!--查询单个-->
     <select id="queryById" resultMap="UserMap" >
         select
-          id, name, age, phone, login_time
+          id, name,password, age, phone, login_time
         from tb_user
         where id = #{id}
     </select>
@@ -21,7 +22,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="UserMap">
         select
-          id, name, age, phone, login_time
+          id, name,password, age, phone, login_time
         from tb_user
         limit #{offset}, #{limit}
     </select>
@@ -29,7 +30,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="UserMap">
         select
-          id, name, age, phone, login_time
+          id, name,password, age, phone, login_time
         from tb_user
         <where>
             <if test="id != null">
@@ -37,6 +38,9 @@
             </if>
             <if test="name != null and name != ''">
                 and name = #{name}
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
             </if>
             <if test="age != null">
                 and age = #{age}
@@ -58,6 +62,11 @@
             <if test="name != null and name != ''">
                 name = #{name},
             </if>
+
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+
             <if test="age != null">
                 age = #{age},
             </if>

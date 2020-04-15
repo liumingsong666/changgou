@@ -11,7 +11,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://${eureka.instance.ip-address}:${server.port}/eureka
+      defaultZone: http://song:song@${eureka.instance.ip-address}:${server.port}/eureka
     fetch-registry: false
     register-with-eureka: false
 

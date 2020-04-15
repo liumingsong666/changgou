@@ -35,13 +35,13 @@ public class UserService {
     @Cacheable(value = "user",key="#id",unless = "#result==null or #result=='' ")
     public User queryById(Integer id) {
         System.out.println("走redis查询");
-        Object o =  redisTemplate.opsForValue().get(String.valueOf(id));
+        Object o =  redisTemplate.opsForValue().get("REDIS_USER_"+ id);
         if(Objects.nonNull(o)){
             return (User) o;
         }
         System.out.println("走数据库查询");
         User user = this.userMapper.queryById(id);
-        redisTemplate.opsForValue().set("REDIS_USER_"+id,user,10, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set("REDIS_USER_"+id,user,100, TimeUnit.SECONDS);
         //return userMapper.selectByPrimaryKey(id);
         return user;
     }
