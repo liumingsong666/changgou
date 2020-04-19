@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+<meta charset="UTF-8">
+<title>登录页</title>
+<link rel="stylesheet" href="../css/style.css">
+  <script src="../js/jquery-3.4.1.min.js"></script>
+  <script src="../js/bootstrap.min.js"></script>
+  <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+</head>
+
+<body>
+
+<div class="container">
+  <div class="left">
+    <div class="header">
+      <h2 class="animation a1">欢迎回到畅购</h2>
+      <br>
+      <br>
+    </div>
+
+    <div>
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">账号密码登录</a></li>
+        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">短信登录</a></li>
+        <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">微信登录</a></li>
+
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="home">
+          <form id="loginForm">
+            <div class="form-group">
+              <label for="exampleInputUsername">用户名</label>
+              <input type="text" class="form-control" id="exampleInputUsername" name="username" placeholder="用户名" style="width: 80%">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">密码</label>
+              <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="密码" style="width: 80%">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputCode">验证码</label>
+<!--              <input type="text" name="imageCode" class="form-control" id="exampleInputCode" placeholder="请输入验证码" style="width: 40%"><span><img src="/code/image" id="getImageCode" /></span>-->
+              <input type="text" name="imageCode" class="form-control" id="exampleInputCode" placeholder="请输入验证码" style="width: 40%"><img src="/login/captcha" width="130px" height="48px" id="getImageCode"/>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox"> Check me out
+              </label>
+            </div>
+            <button type="button" id="login" class="btn btn-default">登录</button>
+          </form>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="profile">
+          <form method="post" id="mobileLoginForm">
+            <div class="form-group">
+              <label for="exampleInputMobile">手机号</label>
+              <input type="text" class="form-control" id="exampleInputMobile" name="phone" placeholder="请输入手机号" style="width: 80%">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputMobileCode">短信验证码</label>
+              <input type="text" class="form-control" id="exampleInputMobileCode" name="mobileCode" placeholder="验证码" style="width: 40%">
+              <a href="javascript:void(0)" id="getMobileCode">发送验证码</a>
+            </div>
+
+            <button id="mobileLogin" type="button" class="btn btn-default">登录</button>
+          </form>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="messages"></div>
+      </div>
+
+
+    </div>
+
+    <!--<form action="/login" method="post">
+      <div class="form">
+      <input type="text" class="form-field animation a3" name="username" placeholder="账户">
+      <input type="password" class="form-field animation a4" name="password" placeholder="密码">
+        <input type="text" class="form-field animation a4" name="imageCode" placeholder="请输入验证码">
+        <img src="/image/code" id="imageCode">
+      <p class="animation a5" ><a href="#">忘记密码</a></p>
+      <button type="submit" class="animation a6">登录</button>
+    </div>
+    </form>-->
+
+  </div>
+  <div class="right"></div>
+</div>
+</body>
+
+<script>
+
+
+  $(function () {
+    $("#getImageCode").click(function () {
+      $(this).attr("src","/login/captcha?random="+Math.random());
+    })
+    $('#myTabs a').click(function (e) {
+      e.preventDefault()
+      $(this).tab('show')
+    })
+    $("#getMobileCode").click(function () {
+      //应该判断手机号码11位
+      $.ajax({
+        type:"GET",
+        url:"/code/mobile/"+$("#exampleInputMobile").val(),
+        success:function (data) {
+        }
+      })
+    })
+    $("#login").click(function () {
+      $.ajax({
+        type:"POST",
+        url:"/login/changgou",
+        dataType:"application/json",
+        data:$("#loginForm").serialize(),
+
+        success:function (data) {
+          console.log(data.responseText)
+        },
+        error:function (data) {
+          console.log("xxxx")
+          console.log(data.responseText)
+        }
+      })
+    })
+
+      window.WxLogin({
+        self_redirect:true,
+        id:"messages",
+        appid: "wxd853562a0548a7d0",
+        scope: "snsapi_login",
+        redirect_uri: "http://bugtracker.itsource.cn/wx/callback&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect",
+        state: "",
+        style: "",
+        href: ""
+      });
+
+
+  })
+
+</script>
+</html>

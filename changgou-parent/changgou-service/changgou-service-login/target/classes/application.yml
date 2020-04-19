@@ -1,0 +1,34 @@
+#整合第三方登录的框架
+justauth:
+  enabled: true
+  type:
+    WECHAT_OPEN:
+      client-id: wxd853562a0548a7d0
+      client-secret: 4a5d5615f93f24bdba2ba8534642dbb6
+      redirect-uri: http://bugtracker.itsource.cn/wx/callback
+
+spring:
+  application:
+    name: login
+
+
+#  mvc:
+#    #static-path-pattern: /static/**
+#    view:
+#      prefix: /static/
+#      suffix: .html
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://song:song@127.0.0.1:7000/eureka
+  instance:
+    prefer-ip-address: true
+
+server:
+  port: 8200
+
+
+redis:
+  image:
+    code: REDIS_IMAGE_CODE_

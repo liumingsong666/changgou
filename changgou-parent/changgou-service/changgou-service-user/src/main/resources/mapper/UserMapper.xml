@@ -53,6 +53,9 @@
             </if>
         </where>
     </select>
+    <select id="queryByName" resultType="com.song.entity.User">
+        select name,password from tb_user where name=#{name}
+    </select>
 
 
     <!--通过主键修改数据-->

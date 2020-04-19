@@ -25,6 +25,7 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.47</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>

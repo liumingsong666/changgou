@@ -52,4 +52,10 @@ public interface UserMapper extends Mapper<User> {
      */
     int deleteById(Integer id);
 
+    /**
+     * 通过用户名查询
+     * @param name
+     * @return
+     */
+    User queryByName(String name);
 }

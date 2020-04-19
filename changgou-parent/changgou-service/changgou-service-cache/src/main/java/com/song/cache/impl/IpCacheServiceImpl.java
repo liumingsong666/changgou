@@ -6,7 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
+@EnableCaching
 public class IpCacheServiceImpl implements CacheService {
 
 
@@ -28,7 +32,12 @@ public class IpCacheServiceImpl implements CacheService {
     }
 
     @Override
-    @Cacheable(value = "Ip",key = "#key",unless = "#result==null")
+    public Object setCacheInfo(String key, Object value, Long ttl, TimeUnit timeUnit) {
+        return null;
+    }
+
+    @Override
+    @Cacheable(value = "IP",key = "#key",unless = "#result==null")
     public Object getCacheInfo(String key) {
         log.info("获取key");
         return null;
@@ -36,8 +45,9 @@ public class IpCacheServiceImpl implements CacheService {
 
     @Override
     @CacheEvict(value = "IP",key = "#key")
-    public void deleteCacheInfo(String key) {
+    public boolean deleteCacheInfo(String key) {
         log.info("删除key");
+        return false;
     }
 
 }

@@ -85,4 +85,9 @@ public class UserService {
     public boolean deleteById(Integer id) {
         return this.userMapper.deleteById(id) > 0;
     }
+
+
+    public User queryBuUsername(String name) {
+        return userMapper.queryByName(name);
+    }
 }

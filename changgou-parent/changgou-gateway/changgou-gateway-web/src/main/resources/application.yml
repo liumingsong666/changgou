@@ -13,15 +13,17 @@ eureka:
   client:
     service-url:
       defaultZone: http://song:song@localhost:7000/eureka
-  instance:
-    prefer-ip-address: true
+
+      #将Ip注册上去
+#  instance:
+#    prefer-ip-address: true
 #    ip-address: ${spring.cloud.client.ip-address}:${server.port}
 server:
   port: 9000
 
 ---
 spring:
-  profiles: gateway1
+  profiles: gateway
   cloud:
     gateway:
       globalcors:
@@ -35,22 +37,30 @@ spring:
               - DELETE
 
       routes:
-            - id: goods
-              uri: http://localhost:8000       #代表从注册中心获取服务，且以lb(load-balance)负载均衡方式转发
-              predicates:                     #断言
-              - Path=/goods/**            #表示将以/service01/**开头的请求转发到uri为lb://MICROSERVICE01的地址上
-         #   - After=2019-06-20T00:00:00.789-07:00[America/Denver] #表示在该时间点之后的时间，发出的请求会被路由到uri
-      #        filters:
-      #        - StripPrefix=1                #表示将Path的路径/service01在转发前去掉，如果设置StripPrefix=2，表示将/service01/*去掉 以此类推... 同时将spring.cloud.gateway.discovery.locator.enabled改为false，如果不改的话，之前的localhost:8799/client01/test01这样的请求地址也能正常访问，因为这时为每个服务创建了2个router
-# ========添加配置=======
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*" #注意这里*要加引号，暴露全部，也可以只暴露相应endpoint
-  endpoint:
-    routes:
-      enabled: true # 默认为true，可以省略
+        - id: user  #这个id只是为了分组
+          uri: lb://USER
+          predicates:
+            - Path=/user/**
+#          filters:
+#            - StripPrefix=1
+        - id: goods
+          uri: lb://GOODS
+          predicates:
+            - Path=/brand/**
+
+
+        - id: websocket
+          uri: ws://WEBSOCKET
+          predicates:
+            - Path=/websocket/**
+
+      discovery:
+        locator:
+          lower-case-service-id: true
+          enabled: true
+
+
+
 ---
 #zuul:
 #  routes:
@@ -72,5 +82,33 @@ spring:
 
 zuul:
   routes:
-    goods: /goods/**
-    user: /user/**
+    goods:
+      path: /brand/**
+      serviceId: GOODS
+      stripPrefix: false
+
+    user:
+      path: /user/**
+      serviceId: USER
+      stripPrefix: false
+
+    websocket:
+      path: /websocket/**
+      serviceId: WEBSOCKET
+
+    login:
+      path: /login/**
+      serviceId: LOGIN
+      stripPrefix: false
+
+
+    login2:
+      path: /wx/callback/**
+      serviceId: LOGIN
+
+    login-static:
+      path: /page/**
+      serviceId: LOGIN
+
+
+

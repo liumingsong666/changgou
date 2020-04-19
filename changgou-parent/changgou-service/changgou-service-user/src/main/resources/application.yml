@@ -13,7 +13,7 @@ spring:
     druid:
       initial-size: 5  # 初始化大小
       min-idle: 5  # 最小
-      max-active: 100  # 最大
+      max-active: 20  # 最大
       max-wait: 60000  # 配置获取连接等待超时的时间
       time-between-eviction-runs-millis: 60000  # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
       min-evictable-idle-time-millis: 300000  # 指定一个空闲连接最少空闲多久后可被清除，单位是毫秒
@@ -79,7 +79,13 @@ eureka:
 
 feign:
   hystrix:
+    enabled: false
+
+  httpclient:
     enabled: true
+    max-connections: 1000
+    max-connections-per-route: 1000
+
 
 mybatis:
   type-aliases-package: com.song.entity
@@ -93,6 +99,10 @@ logging:
     root: info
 #定向的包的日志级别
     com:
-      song:
-        controller: debug
+      song: debug
 
+ribbon:
+  ConnectTimeout: 1000
+  MaxConnectionsPerHost: 1000
+  MaxTotalConnections: 1000
+  ReadTimeout: 8000

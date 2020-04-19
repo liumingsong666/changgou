@@ -1,7 +1,10 @@
 package com.song.filter;
 
+
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
+import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,14 +17,21 @@ import java.util.List;
 
 public abstract class AbstractZuulFilter extends ZuulFilter {
 
-    public  RequestContext currentContext = RequestContext.getCurrentContext() ;
 
-    public  List<String> uri = Arrays.asList("/login","/druid","/zipkin","/eureka");
+    protected RequestContext currentContext;
+
+    protected final List<String> uri = Arrays.asList("/login","/login/xx", "/page/index.html","/druid", "/zipkin", "/eureka");
+
+
+    @Override
+    public String filterType() {
+        return FilterConstants.PRE_TYPE;
+    }
 
 
     @Override
     public boolean shouldFilter() {
-        currentContext=RequestContext.getCurrentContext();
+        currentContext = RequestContext.getCurrentContext();
         return currentContext.sendZuulResponse();
     }
 

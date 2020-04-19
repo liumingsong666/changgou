@@ -1,8 +1,9 @@
 package com.song;
 
+import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 
@@ -13,7 +14,7 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
  */
 
 @EnableEurekaClient
-@SpringBootApplication
+@SpringBootApplication(exclude = {DruidDataSourceAutoConfigure.class, DataSourceAutoConfiguration.class})
 @EnableZuulProxy
 public class GateWayApplication {
     public static void main(String[] args) {
