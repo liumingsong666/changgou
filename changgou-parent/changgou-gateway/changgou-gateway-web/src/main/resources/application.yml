@@ -79,6 +79,10 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/changgou?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&useSSL=false
     username: root
 
+ribbon:
+  ReadTimeout: 120000  #请求处理的超时时间
+  ConnectTimeout: 30000  #请求连接的超时时间
+
 
 zuul:
   routes:
@@ -109,6 +113,12 @@ zuul:
     login-static:
       path: /page/**
       serviceId: LOGIN
+  #add-host-header: true
+  sensitive-headers:
 
+
+#是否开启swagger
+swagger:
+  enable: true
 
 

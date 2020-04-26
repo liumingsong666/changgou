@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisCacheServiceImpl implements CacheService {
 
     @Autowired
-    private RedisTemplate<String,Object> redisTemplate;
+    private RedisTemplate<Object,Object> redisTemplate;
 
     @Override
     public Object setCacheInfo(String key, Object value) {

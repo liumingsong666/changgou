@@ -11,10 +11,13 @@
         <result property="loginTime" column="login_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+    <sql id="allCol" >
+        id, name,password, age, phone, login_time,role_id,version
+    </sql>
     <!--查询单个-->
     <select id="queryById" resultMap="UserMap" >
         select
-          id, name,password, age, phone, login_time
+          <include refid="allCol" />
         from tb_user
         where id = #{id}
     </select>
@@ -22,7 +25,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="UserMap">
         select
-          id, name,password, age, phone, login_time
+        <include refid="allCol" />
         from tb_user
         limit #{offset}, #{limit}
     </select>
@@ -30,7 +33,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="UserMap">
         select
-          id, name,password, age, phone, login_time
+          <include refid="allCol" />
         from tb_user
         <where>
             <if test="id != null">
@@ -51,17 +54,22 @@
             <if test="loginTime != null">
                 and login_time = #{loginTime}
             </if>
+            <if test="roleId !=null and roleId != '' ">
+                and role_id=#{roleId}
+            </if>
+            <if test="version != null" >
+                and version=#{version}
+            </if>
         </where>
     </select>
     <select id="queryByName" resultType="com.song.entity.User">
-        select name,password from tb_user where name=#{name}
+        select <include refid="allCol" /> from tb_user where name=#{name}
     </select>
 
 
     <!--通过主键修改数据-->
     <update id="update">
-        update tb_user
-        <set>
+        update tb_user set
             <if test="name != null and name != ''">
                 name = #{name},
             </if>
@@ -79,8 +87,11 @@
             <if test="loginTime != null">
                 login_time = #{loginTime},
             </if>
-        </set>
-        where id = #{id}
+            <if test="roleId != null">
+                role_id=#{roleId},
+            </if>
+            version += 1
+        where id = #{id} and version=#{version}
     </update>
 
     <!--通过主键删除-->

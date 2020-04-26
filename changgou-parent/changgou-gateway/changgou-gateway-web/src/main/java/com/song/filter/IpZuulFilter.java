@@ -46,6 +46,7 @@ public class IpZuulFilter extends AbstractZuulFilter {
     @Override
     public Object run() {
         //获取真实ip
+
         HttpServletRequest request = currentContext.getRequest();
         String remoteAddr = request.getRemoteAddr();
         //RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();

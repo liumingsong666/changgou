@@ -1,0 +1,30 @@
+server:
+  port: 8600
+
+spring:
+  rabbitmq:
+    host: 192.168.205.128
+    listener:
+      simple:
+        acknowledge-mode: manual
+
+        #并发消费者初始化值
+        concurrency: 10
+        #并发消费者的最大值
+        max-concurrency: 20
+        #每个消费者每次监听时可拉取处理的消息数量
+        prefetch: 5
+
+    username: guest
+    password: guest
+    virtual-host: /
+
+    #开启生产者的确认机制
+    publisher-confirms: true
+    publisher-returns: true
+
+
+    template:
+      mandatory: true
+      retry:
+        enabled: true

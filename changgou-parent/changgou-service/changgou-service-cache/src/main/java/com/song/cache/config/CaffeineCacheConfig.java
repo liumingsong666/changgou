@@ -4,6 +4,7 @@ import com.github.benmanes.caffeine.cache.CacheLoader;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.assertj.core.util.Lists;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,7 @@ import java.util.concurrent.TimeUnit;
  */
 
 @Configuration
+@EnableCaching
 public class CaffeineCacheConfig {
 
     @Bean

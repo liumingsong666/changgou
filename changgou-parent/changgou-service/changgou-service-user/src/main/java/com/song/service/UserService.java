@@ -6,9 +6,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.ObjectUtils;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -18,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  * @author mingsong.liu
  * @since 2020-04-13 00:28:05
  */
-@Service("userService")
+@Service
 public class UserService {
 
     @Autowired
@@ -89,5 +87,14 @@ public class UserService {
 
     public User queryBuUsername(String name) {
         return userMapper.queryByName(name);
+    }
+
+    /**
+     * 通过对象查询用户
+     * @param user
+     * @return
+     */
+    public User queryByUser(User user) {
+         return userMapper.selectOne(user);
     }
 }

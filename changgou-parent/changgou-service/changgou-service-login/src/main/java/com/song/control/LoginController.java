@@ -13,6 +13,7 @@ import me.zhyd.oauth.utils.AuthStateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -73,8 +74,15 @@ public class LoginController {
 
     @RequestMapping("/login")
     public void login(HttpServletRequest request,HttpServletResponse response) throws IOException, ServletException {
-        request.getRequestDispatcher("/page/index.html").forward(request,response);
-        return;
+        response.sendRedirect("/page/index.html");
+
+    }
+
+    @RequestMapping("/login/test")
+    @ResponseBody
+    @PreAuthorize("hasRole('ROLE_超级管理员')")
+    public String test(){
+        return "你有权限查看";
     }
 
 }

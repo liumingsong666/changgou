@@ -2,6 +2,7 @@ package com.song.websocete;
 
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -24,7 +25,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @Description:
  */
 @Slf4j
-@ServerEndpoint("/websocket/{userId}")
+@ServerEndpoint("/service/{userId}")
+@Component
 public class WebSocketServer {
 
     private static AtomicInteger count = new AtomicInteger(0);
@@ -68,7 +70,7 @@ public class WebSocketServer {
     }
 
     @OnMessage
-    public void sendMessage(@PathParam("userId") String userId, String message) throws IOException {
+    public void sendMessage(String message) throws IOException {
 
         if(StringUtils.isEmpty(message)){
             send("发送信息为空");
@@ -82,7 +84,7 @@ public class WebSocketServer {
             send("没有该好友");
             return;
         }
-        webSocketServer.send(jsonObject.getString("contentType"));
+        webSocketServer.send(jsonObject.getString("contentText"));
     }
 
     public void send(String message) throws IOException {

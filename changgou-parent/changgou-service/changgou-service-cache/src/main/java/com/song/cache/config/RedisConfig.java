@@ -3,12 +3,15 @@ package com.song.cache.config;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableMBeanExport;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.jmx.support.RegistrationPolicy;
 
 /**
  * @Auther: mingsong.liu
@@ -16,12 +19,14 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * @Description: 配置redis
  */
 @Configuration
+@EnableCaching
+@EnableMBeanExport(registration = RegistrationPolicy.IGNORE_EXISTING) // 解决jmx重复注册bean的问题
 public class RedisConfig {
 
 
     @Bean
-    public RedisTemplate<String ,Object> redisTemplate(RedisConnectionFactory redisConnectionFactory){
-        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<Object ,Object> redisTemplate(RedisConnectionFactory redisConnectionFactory){
+        RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
         redisTemplate.setKeySerializer(stringRedisSerializer);

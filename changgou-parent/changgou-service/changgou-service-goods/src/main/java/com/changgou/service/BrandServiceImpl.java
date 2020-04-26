@@ -8,6 +8,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
@@ -21,6 +25,7 @@ public class BrandServiceImpl implements BrandService {
     private BrandMapper brandMapper;
 
     @Override
+    @Transactional
     public Result update(Integer id, Brand brand) {
         brand.setId(id);
         brandMapper.updateByPrimaryKeySelective(brand);
@@ -53,9 +58,21 @@ public class BrandServiceImpl implements BrandService {
         return new Result(true,StatusCode.OK,"查询成功",brandPageInfo);
     }
 
+    @Autowired
+    private TransactionTemplate transactionTemplate;
+
     @Override
     public Result delete(Integer id) {
-        int i = brandMapper.deleteByPrimaryKey(id);
+
+        //编程式事务，解决显示事务占用连接 TODO
+        int i = transactionTemplate.execute(new TransactionCallback<Integer>() {
+            @Override
+            public Integer doInTransaction(TransactionStatus transactionStatus) {
+
+                return brandMapper.deleteByPrimaryKey(id);
+            }
+        });
+
         if(i>0){
             return new Result(true,StatusCode.OK,"删除成功");
         }

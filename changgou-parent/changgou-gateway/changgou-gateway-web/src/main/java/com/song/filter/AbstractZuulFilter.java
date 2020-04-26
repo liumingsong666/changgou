@@ -20,7 +20,7 @@ public abstract class AbstractZuulFilter extends ZuulFilter {
 
     protected RequestContext currentContext;
 
-    protected final List<String> uri = Arrays.asList("/login","/login/xx", "/page/index.html","/druid", "/zipkin", "/eureka");
+    protected final List<String> uri = Arrays.asList("/login","login/changgou","/websocket", "/page/index.html","/druid", "/zipkin", "/eureka");
 
 
     @Override

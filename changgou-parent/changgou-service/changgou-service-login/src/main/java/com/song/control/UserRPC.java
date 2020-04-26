@@ -1,8 +1,8 @@
 package com.song.control;
 
-import com.alibaba.fastjson.JSONObject;
-import com.changgou.entity.UserInfo;
+import com.song.entity.UserInfo;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @Description:
  */
 
-@FeignClient(name = "user")
+@FeignClient(name = "USER")
 public interface UserRPC {
 
-    @PostMapping("/user/login")
+    @GetMapping("/user/select")
     UserInfo queryUser(@RequestParam("username") String username);
 }

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" debug="false">
+    
+    <logger name="com.song" level="INFO"/>
+    
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <property name="LOG_PATH" value="./logs"/>
+    <property name="LOG_FILE" value="info.log"/>
+    <property name="LOG_ERROR_FILE" value="error.log"/>
+    <property name="PARTNER_FILE" value="partner.log"/>
+    <property name="MVC_FILE" value="mvc.log"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+    <include resource="org/springframework/boot/logging/logback/file-appender.xml"/>
+
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %X{IDENTIFIER} [Txid:%X{PtxId} SpanId:%X{PspanId}] %thread
+                %X{URI} %logger[%method:%line] - %msg%n
+            </pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+    
+    <appender name="LogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_PATH}/${LOG_FILE}</File>
+        <Append>true</Append>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %X{IDENTIFIER} [Txid:%X{PtxId} SpanId:%X{PspanId}] %thread
+                %X{URI} %logger[%method:%line] - %msg%n
+            </pattern>
+            <charset>utf8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/${LOG_FILE}.%d{yyyy-MM-dd }</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+   
+    <appender name="ErrorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_PATH}/${LOG_ERROR_FILE}</File>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %level %X{IDENTIFIER} [Txid:%X{PtxId} SpanId:%X{PspanId}] %thread
+                %X{URI} %logger[%method:%line] - %msg%n
+            </pattern>
+            <charset>utf8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/${LOG_ERROR_FILE}.%d{yyyy-MM-dd }</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+   
+    <appender name="PartnerFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_PATH}/${PARTNER_FILE}</File>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %level %X{IDENTIFIER} [Txid:%X{PtxId} SpanId:%X{PspanId}] %thread
+                %X{URI}
+                %logger[%method:%line] - %msg%n
+            </pattern>
+            <charset>utf8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/${PARTNER_FILE}.%d{yyyy-MM-dd }</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+    
+    <appender name="MVC" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_PATH}/${MVC_FILE}</File>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %level %X{URI} shopId=%X{shopId} brandId=%X{brandId}
+                %logger[%method:%line] - %msg%n
+            </pattern>
+            <charset>utf8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/${MVC_FILE}.%d{yyyy-MM-dd }</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+    
+    <logger name="org.apache.kafka" level="WARN"/>
+    <logger name="org.springframework.boot.actuate.endpoint.mvc" level="WARN"/>
+    <logger name="org.springframework.boot.context.properties" level="ERROR"/>
+    <logger name="org.springframework.kafka.listener" level="WARN"/>
+
+    <logger name="PartnerRequest" level="INFO" additivity="false">
+        <appender-ref ref="PartnerFile"/>
+        <appender-ref ref="Console"/>
+    </logger>
+    
+    <logger name="MvcLog" level="INFO" additivity="false">
+        <appender-ref ref="MVC"/>
+        <appender-ref ref="Console"/>
+    </logger>
+    
+    <root level="INFO">
+        <appender-ref ref="Console"/>
+        <appender-ref ref="LogFile"/>
+        <appender-ref ref="ErrorFile"/>
+    </root>
+</configuration>

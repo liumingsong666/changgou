@@ -1,5 +1,5 @@
 server:
-  port: 1000
+  port: 8400
 spring:
   application:
     name: cache

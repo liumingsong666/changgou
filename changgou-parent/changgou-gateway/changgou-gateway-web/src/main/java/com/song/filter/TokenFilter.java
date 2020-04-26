@@ -37,14 +37,13 @@ public class TokenFilter extends AbstractZuulFilter {
         String author = request.getHeader(Constant.token.TOKEN_AUTHOR);
         HttpServletResponse response = currentContext.getResponse();
         response.setContentType(MediaType.TEXT_HTML_VALUE);
-        if(request.getRequestURI().startsWith("/websocket")){
-            return null;
-        }
-        if (uri.contains(request.getRequestURI())) {
+        String uri = request.getRequestURI();
+
+        if (this.uri.contains(uri)) {
             return null;
         }
         if (Objects.isNull(author)) {
-            response.sendRedirect("/login/xx");
+            response.sendRedirect("/page/index.html");
             //response.sendRedirect("http://localhost:8200/page/index.html");
             currentContext.setSendZuulResponse(false);
             return null;

@@ -2,6 +2,7 @@ package com.song.mapper;
 
 import com.song.entity.User;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.List;
  * @author mingsong.liu
  * @since 2020-04-13 00:28:07
  */
+
+@Repository
 public interface UserMapper extends Mapper<User> {
 
     /**

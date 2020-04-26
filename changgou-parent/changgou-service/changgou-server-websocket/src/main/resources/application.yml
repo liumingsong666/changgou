@@ -1,17 +1,20 @@
 server:
-  port: 8200
+  port: 8500
+  servlet:
+    context-path: /websocket
 
 
 eureka:
   client:
     service-url:
       defaultZone: http://song:song@127.0.0.1:7000/eureka
-#  instance:
-#    prefer-ip-address: true
+  instance:
+    prefer-ip-address: true
 
 spring:
   application:
     name: websocket
+
   sleuth:
     sampler:
       probability: 1

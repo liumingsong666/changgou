@@ -11,6 +11,54 @@ spring:
   application:
     name: login
 
+  datasource:
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/changgou?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&useSSL=false
+    username: root
+  cloud:
+    zookeeper:
+      connectString: localhost:2181,localhost:2182
+      enabled: true
+      #拉取zookeeper上的配置文件信息，路径为：/configurations/changgou/${profile.active}/apps
+      config:
+        enabled: true
+        root: /configurations/changgou/${profile.active}
+        defaultContext: apps
+        profileSeparator: ':'
+
+  #jackson的配置（标准）：
+  jackson:
+  date-format: yyyy-MM-dd HH:mm:ss
+  default-property-inclusion: always
+  deserialization.fail_on_unknown_properties: false
+  locale: zh_CN
+  serialization.write_dates_as_timestamps: false
+
+  redis:
+    host: localhost
+
+ribbon:
+  ConnectTimeout: 10000
+  ReadTimeout: 60000
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+  threadpool:
+    default:
+      coreSize: 80
+      maxQueueSize: 300
+      queueSizeRejectionThreshold: 30111
+
+
+logging:
+  level:
+    com.song: debug
 
 #  mvc:
 #    #static-path-pattern: /static/**
@@ -32,3 +80,9 @@ server:
 redis:
   image:
     code: REDIS_IMAGE_CODE_
+
+mybatis:
+  type-aliases-package: com.song.entity
+  mapper-locations: classpath:/mapper/*.xml
+
+

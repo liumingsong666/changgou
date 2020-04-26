@@ -13,13 +13,11 @@
     <packaging>pom</packaging>
     <modules>
         <module>changgou-gateway-web</module>
+        <module>changgou-gateway-web2</module>
     </modules>
     <dependencies>
 
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
-        </dependency>
+
         <!--<dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>

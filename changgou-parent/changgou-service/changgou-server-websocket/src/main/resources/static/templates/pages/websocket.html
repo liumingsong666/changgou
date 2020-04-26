@@ -15,7 +15,7 @@
             //实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
             //等同于socket = new WebSocket("ws://localhost:8888/xxxx/im/25");
             //var socketUrl="${request.contextPath}/im/"+$("#userId").val();
-            var socketUrl="ws://localhost:9000/websocket/"+$("#userId").val();
+            var socketUrl="ws://127.0.0.1:9000/websocket/service/"+$("#userId").val();
             //socketUrl=socketUrl.replace("https","ws").replace("http","ws");
             console.log(socketUrl);
             if(socket!=null){
@@ -30,9 +30,24 @@
             };
             //获得消息事件
             socket.onmessage = function(msg) {
-                console.log(msg.data);
-                $("#responseText").append("\n"+msg.data)
-                //发现消息进入    开始处理前端触发逻辑
+                // console.log(msg.data);
+                // $("#responseText").append(msg.data)
+                // //发现消息进入    开始处理前端触发逻辑
+                if(typeof(msg.data)=="string"){
+                    //textHandler(JSON.parse(evt.data));
+                    $("#responseText").append(msg.data)
+                }else{
+                    var reader = new FileReader();
+                    reader.onload = function(evt){
+                        if(evt.target.readyState == FileReader.DONE){
+                            var url = evt.target.result;
+                            alert(url);
+                            var img = document.getElementById("imgDiv");
+                            img.innerHTML = "<img src = "+url+" />";
+                        }
+                    }
+                    reader.readAsDataURL(evt.data);
+                }
             };
             //关闭事件
             socket.onclose = function() {
@@ -54,6 +69,16 @@
             socket.send('{"toUserId":'+$("#toUserId").val()+',"contentText":"'+$("#contentText").val()+'"}');
         }
     }
+    function sendFile() {
+        console.log($('#file')[0].files);
+        var bufferedReader = new BufferedReader();
+        bufferedReader.readAsArrayBuffer($('#file')[0].files[0]);
+        bufferedReader.onload=function (evt) {
+            var blob = evt.target.result;
+            //发送二进制表示的文件
+            websocket.send(blob)
+        }
+    }
 </script>
 <body>
 <p>【userId】：<div><input id="userId" name="userId" type="text" value="10"></div>
@@ -62,7 +87,11 @@
 <p>【操作】：<div><a onclick="openSocket()" href="javascript:void(0);">开启socket</a></div>
 <p>【操作】：<div><a onclick="sendMessage()" href="javascript:void(0);">发送消息</a></div>
 
-<p> 回复信息：<div><p id="responseText"></p></div>
+<input type="file" id="file" value="选择文件" name="file">
+<p>【操作】：<div><a onclick="sendFile()" href="javascript:void(0);">发送文件</a></div>
+
+<p> 回复信息：<div id="responseText"></div>
+<div id="imgDiv"></div>
 </body>
 
 </html>

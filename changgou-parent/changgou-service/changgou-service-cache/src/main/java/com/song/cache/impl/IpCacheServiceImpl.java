@@ -20,7 +20,6 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
-@EnableCaching
 public class IpCacheServiceImpl implements CacheService {
 
 

@@ -6,7 +6,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.changgou.entity.UserInfo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -29,12 +28,25 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel("用户表")
-public class User extends UserInfo implements Serializable {
+public class User implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @ApiModelProperty("ID")
     private Integer id;
+
+    @ApiModelProperty("姓名")
+    @Column(name = "name")
+    protected String name;
+
+    @ApiModelProperty("password")
+    @Column(name = "password")
+    protected String password;
+
+    @ApiModelProperty("手机号")
+    @Column(name = "phone")
+    protected Integer phone;
 
     @Column(name = "age")
     @ApiModelProperty("年龄")
@@ -44,5 +56,13 @@ public class User extends UserInfo implements Serializable {
     @ApiModelProperty("登录时间")
     @JsonFormat(pattern = "yyy-MM-dd HH:mm:ss")
     private Date loginTime;
+
+    @Column(name = "role_id")
+    @ApiModelProperty("角色id")
+    private Integer roleId;
+
+    @Column(name = "version")
+    @ApiModelProperty("版本号")
+    private Integer version;
 
 }

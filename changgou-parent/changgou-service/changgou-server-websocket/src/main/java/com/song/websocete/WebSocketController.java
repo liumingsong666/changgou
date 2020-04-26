@@ -22,14 +22,14 @@ import java.io.IOException;
 @Slf4j
 public class WebSocketController {
 
-    @PostMapping("/websocket/sendAll")
+    @PostMapping("/service/sendAll")
     public Result sendAll(@NotBlank @RequestParam("message") String message, HttpServletResponse response) throws IOException {
         log.info("群发消息：{}",message);
         WebSocketServer.sendAll(message);
         return new Result(true,HttpStatus.OK.value(),"发送成功");
     }
 
-    @PostMapping("/websocket/send")
+    @PostMapping("/service/send")
     public Result send(@NotBlank @RequestParam("userId") String userId , @NotBlank @RequestParam("message") String message) throws IOException {
         String send = WebSocketServer.send(message, userId);
         return new Result(true,HttpStatus.OK.value(),send);
