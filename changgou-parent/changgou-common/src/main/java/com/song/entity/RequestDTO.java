@@ -35,7 +35,7 @@ public class RequestDTO<T> {
     @ApiModelProperty("调用方系统")
     private String accessor;
 
-    @ApiModelProperty("备注:只填写信息，不做任何的业务属性")
+    @ApiModelProperty("备注信息")
     private String comment;
 
     @ApiModelProperty("名称")
