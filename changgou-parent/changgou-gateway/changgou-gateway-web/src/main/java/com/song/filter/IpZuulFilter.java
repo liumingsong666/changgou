@@ -1,11 +1,6 @@
 package com.song.filter;
 
-import com.changgou.entity.Constant;
-import com.netflix.zuul.context.RequestContext;
-import com.netflix.zuul.exception.ZuulException;
 import com.song.cache.CacheService;
-import com.song.cache.impl.IpCacheServiceImpl;
-import com.sun.org.apache.regexp.internal.RE;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

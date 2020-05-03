@@ -12,10 +12,7 @@
     <artifactId>changgou-service-goods</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>com.song</groupId>
             <artifactId>changgou-service-goods-api</artifactId>

@@ -1,7 +1,7 @@
 package com.song.controller.api;
 
-import com.changgou.entity.Result;
-import com.changgou.entity.StatusCode;
+import com.song.entity.Result;
+import com.song.entity.StatusCode;
 import org.springframework.stereotype.Component;
 
 /**

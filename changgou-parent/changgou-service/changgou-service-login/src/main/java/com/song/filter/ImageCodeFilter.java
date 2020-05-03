@@ -1,9 +1,7 @@
 package com.song.filter;
 
-import com.changgou.entity.Constant;
-import com.changgou.utils.ThreadLocalUtil;
+import com.song.entity.Constant;
 import com.song.cache.CacheService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.util.StringUtils;

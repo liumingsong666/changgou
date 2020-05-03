@@ -6,6 +6,7 @@ spring:
     host: 192.168.205.128
     listener:
       simple:
+        #开启手动确认
         acknowledge-mode: manual
 
         #并发消费者初始化值

@@ -1,3 +1,6 @@
+server:
+  port: 9000
+
 spring:
   application:
     name: gateway
@@ -18,8 +21,18 @@ eureka:
 #  instance:
 #    prefer-ip-address: true
 #    ip-address: ${spring.cloud.client.ip-address}:${server.port}
-server:
-  port: 9000
+
+ribbon:
+  ReadTimeout: 7000  #请求处理的超时时间
+  ConnectTimeout: 7000  #请求连接的超时时间
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
 
 ---
 spring:
@@ -30,29 +43,21 @@ spring:
         cors-configurations:
           '[/**]':
             allowedOrigins: '*'
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
+            allowedMethods: '*'
+
 
       routes:
         - id: user  #这个id只是为了分组
           uri: lb://USER
           predicates:
             - Path=/user/**
-#          filters:
-#            - StripPrefix=1
+
         - id: goods
           uri: lb://GOODS
           predicates:
             - Path=/brand/**
 
 
-        - id: websocket
-          uri: ws://WEBSOCKET
-          predicates:
-            - Path=/websocket/**
 
       discovery:
         locator:
@@ -79,9 +84,7 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/changgou?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&useSSL=false
     username: root
 
-ribbon:
-  ReadTimeout: 120000  #请求处理的超时时间
-  ConnectTimeout: 30000  #请求连接的超时时间
+
 
 
 zuul:

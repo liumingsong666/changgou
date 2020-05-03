@@ -7,19 +7,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="changgou-server-websocket" />
-        <module name="changgou-service-user" />
-        <module name="changgou-service-goods-api" />
-        <module name="changgou-gateway-web2" />
-        <module name="changgou-service-login" />
-        <module name="changgou-common-db" />
         <module name="changgou-service-cache" />
-        <module name="changgou-common" />
-        <module name="changgou-gateway-web" />
+        <module name="changgou-gateway-web2" />
+        <module name="changgou-service-user" />
         <module name="changgou-server-mq" />
-        <module name="changgou-service-goods" />
-        <module name="changgou-service-file" />
+        <module name="changgou-common" />
         <module name="changgou-eureka" />
+        <module name="changgou-service-login" />
+        <module name="changgou-gateway-web" />
+        <module name="changgou-server-websocket" />
+        <module name="changgou-common-db" />
+        <module name="changgou-service-schedul" />
+        <module name="changgou-service-goods-api" />
+        <module name="changgou-service-file" />
+        <module name="changgou-service-goods" />
       </profile>
     </annotationProcessing>
   </component>
@@ -40,6 +41,7 @@
       <module name="changgou-service-goods" options="-parameters" />
       <module name="changgou-service-goods-api" options="-parameters" />
       <module name="changgou-service-login" options="-parameters" />
+      <module name="changgou-service-schedul" options="-parameters" />
       <module name="changgou-service-user" options="-parameters" />
       <module name="changgou-web" options="-parameters" />
     </option>

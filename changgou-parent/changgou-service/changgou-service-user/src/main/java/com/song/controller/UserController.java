@@ -1,6 +1,6 @@
 package com.song.controller;
 
-import com.changgou.entity.Result;
+import com.song.entity.Result;
 import com.song.controller.api.GoodsRPC;
 import com.song.entity.User;
 import com.song.service.UserService;
@@ -18,15 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotBlank;
-import java.util.Objects;
 
 /**
  * 用户表(User)表控制层

@@ -1,8 +1,7 @@
 package com.song.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.changgou.entity.Result;
-import com.changgou.entity.StatusCode;
+import com.song.entity.Result;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;

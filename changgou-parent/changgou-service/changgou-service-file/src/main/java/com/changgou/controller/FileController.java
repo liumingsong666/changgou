@@ -1,7 +1,7 @@
 package com.changgou.controller;
 
-import com.changgou.entity.Result;
-import com.changgou.entity.StatusCode;
+import com.song.entity.Result;
+import com.song.entity.StatusCode;
 import com.changgou.file.FastDfsUtil;
 import com.changgou.file.FileBean;
 import com.github.tobato.fastdfs.domain.StorePath;
@@ -10,7 +10,6 @@ import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.csource.common.MyException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,11 +21,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 @RestController
 @Api("文件上传接口")
@@ -34,7 +29,7 @@ import java.io.InputStream;
 public class FileController {
 
     @PostMapping("upload")
-    public Result upload(@RequestParam @SpringQueryMap MultipartFile file) throws IOException, MyException {
+    public Result upload(@RequestParam MultipartFile file) throws IOException, MyException {
         FileBean fileBean = new FileBean(file.getBytes(), StringUtils.getFilenameExtension(file.getOriginalFilename()), file.getName());
         String[] upload = FastDfsUtil.upload(fileBean);
         return new Result(true, StatusCode.OK,upload[0]+upload[1]);

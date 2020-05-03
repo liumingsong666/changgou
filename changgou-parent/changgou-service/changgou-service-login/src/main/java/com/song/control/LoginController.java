@@ -1,7 +1,6 @@
 package com.song.control;
 
-import com.changgou.entity.Constant;
-import com.netflix.discovery.converters.Auto;
+import com.song.entity.Constant;
 import com.song.cache.CacheService;
 import com.wf.captcha.ArithmeticCaptcha;
 import com.wf.captcha.base.Captcha;
@@ -11,13 +10,10 @@ import me.zhyd.oauth.model.AuthResponse;
 import me.zhyd.oauth.request.AuthRequest;
 import me.zhyd.oauth.utils.AuthStateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 

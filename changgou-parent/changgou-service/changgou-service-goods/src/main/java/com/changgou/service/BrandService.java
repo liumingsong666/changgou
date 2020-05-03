@@ -1,6 +1,6 @@
 package com.changgou.service;
 
-import com.changgou.entity.Result;
+import com.song.entity.Result;
 import com.changgou.goods.pojo.Brand;
 
 import java.util.List;

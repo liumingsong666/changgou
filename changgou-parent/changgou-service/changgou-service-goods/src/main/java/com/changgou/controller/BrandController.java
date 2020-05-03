@@ -1,6 +1,6 @@
 package com.changgou.controller;
 
-import com.changgou.entity.Result;
+import com.song.entity.Result;
 import com.changgou.goods.pojo.Brand;
 import com.changgou.service.BrandService;
 import io.swagger.annotations.Api;
@@ -20,9 +20,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;

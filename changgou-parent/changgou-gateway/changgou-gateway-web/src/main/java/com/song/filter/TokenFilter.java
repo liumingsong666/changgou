@@ -1,11 +1,10 @@
 package com.song.filter;
 
-import com.changgou.entity.Constant;
-import com.changgou.utils.JwtUtil;
+import com.song.entity.Constant;
+import com.song.utils.JwtUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;

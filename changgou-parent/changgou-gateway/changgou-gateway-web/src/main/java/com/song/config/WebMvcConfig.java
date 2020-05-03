@@ -56,11 +56,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     }
 
-    @Autowired
-    private CrosInterceptor crosInterceptor;
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(crosInterceptor).addPathPatterns("/**/**").order(1);
-    }
+//    @Autowired
+//    private CrosInterceptor crosInterceptor;
+//
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(crosInterceptor).addPathPatterns("/**/**").order(1);
+//    }
 }
