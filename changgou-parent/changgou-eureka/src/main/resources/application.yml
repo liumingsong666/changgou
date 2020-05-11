@@ -2,7 +2,7 @@ server:
   port: 7000
 spring:
   application:
-    name: eureka-service
+    name: eureka
   security:
     user:
       name: song
@@ -14,9 +14,10 @@ eureka:
       defaultZone: http://song:song@${eureka.instance.ip-address}:${server.port}/eureka
     fetch-registry: false
     register-with-eureka: false
-
   instance:
-    ip-address: localhost
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+
 
 management:
   endpoints:

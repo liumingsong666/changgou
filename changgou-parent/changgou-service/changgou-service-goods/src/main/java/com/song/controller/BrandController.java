@@ -1,8 +1,9 @@
-package com.changgou.controller;
+package com.song.controller;
 
+import com.song.entity.Constant;
 import com.song.entity.Result;
 import com.changgou.goods.pojo.Brand;
-import com.changgou.service.BrandService;
+import com.song.service.BrandService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -43,9 +44,11 @@ public class BrandController {
     @GetMapping("/brand/{id}")
     @ApiOperation(value = "通过id查询的接口",httpMethod = "GET")
     public Result queryById(@PathVariable("id") Integer id , HttpServletRequest httpServletRequest){
+        String token = httpServletRequest.getHeader(Constant.token.TOKEN_AUTHOR);
+
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = servletRequestAttributes.getRequest();
-        System.out.println("--------------"+(request==httpServletRequest));
+        System.out.println("--------------"+(request==httpServletRequest) +"token: "+token);
         return brandService.queryById(id);
     }
 

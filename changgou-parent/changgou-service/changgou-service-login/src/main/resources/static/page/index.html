@@ -114,14 +114,25 @@
       })
     })
     $("#login").click(function () {
+      var uri = window.location.href;
+      var arr =uri.split('redirect_uri=');
+      var re = 'http://localhost:9000/login/page/index.html';
+      if(arr.length>1){
+        re = decodeURIComponent(arr[1]);
+        console.log(re);
+      }
+
       $.ajax({
         type:"POST",
         url:"/login/changgou",
-        dataType:"application/json",
+        //dataType:"application/json",
         data:$("#loginForm").serialize(),
 
         success:function (data) {
-          console.log(data.responseText)
+          console.log(data)
+          if(data.code==200){
+            window.location.href=re;
+          }
         },
         error:function (data) {
           console.log("xxxx")

@@ -2,7 +2,7 @@ package com.song.cache.config;
 
 import com.github.benmanes.caffeine.cache.CacheLoader;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import org.assertj.core.util.Lists;
+import com.google.common.collect.Lists;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.caffeine.CaffeineCache;

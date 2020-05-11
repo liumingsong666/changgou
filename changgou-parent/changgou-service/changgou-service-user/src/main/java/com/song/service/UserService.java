@@ -1,9 +1,11 @@
 package com.song.service;
 
+import com.song.entity.Result;
 import com.song.entity.User;
 import com.song.mapper.UserMapper;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -31,17 +33,17 @@ public class UserService {
     private RedisTemplate<String,Object> redisTemplate;
 
     @Cacheable(value = "user",key="#id",unless = "#result==null or #result=='' ")
-    public User queryById(Integer id) {
+    public Result<User> queryById(Integer id) {
         System.out.println("走redis查询");
         Object o =  redisTemplate.opsForValue().get("REDIS_USER_"+ id);
         if(Objects.nonNull(o)){
-            return (User) o;
+            return Result.success(o);
         }
         System.out.println("走数据库查询");
         User user = this.userMapper.queryById(id);
         redisTemplate.opsForValue().set("REDIS_USER_"+id,user,100, TimeUnit.SECONDS);
         //return userMapper.selectByPrimaryKey(id);
-        return user;
+        return Result.success(user);
     }
 
     /**
@@ -50,29 +52,10 @@ public class UserService {
      * @param limit 查询条数
      * @return 对象列表
      */
-    public List<User> queryAllByLimit(int offset, int limit) {
-        return this.userMapper.queryAllByLimit(offset, limit);
+    public Result<List<User>> queryAllByLimit(int offset, int limit) {
+        return Result.success(userMapper.queryAllByLimit(offset, limit));
     }
 
-    /**
-     * 新增数据
-     * @param user 实例对象
-     * @return 实例对象
-     */
-    public User insert(User user) {
-        this.userMapper.insert(user);
-        return user;
-    }
-
-    /**
-     * 修改数据
-     * @param user 实例对象
-     * @return 实例对象
-     */
-    public User update(User user) {
-        this.userMapper.update(user);
-        return this.queryById(user.getId());
-    }
 
     /**
      * 通过主键删除数据
@@ -80,13 +63,18 @@ public class UserService {
      * @param id 主键
      * @return 是否成功
      */
-    public boolean deleteById(Integer id) {
-        return this.userMapper.deleteById(id) > 0;
+    public Result<Void> deleteById(Integer id) {
+
+        if(userMapper.deleteById(id)>0){
+            return Result.success(null);
+        }
+        return Result.fail(HttpStatus.BAD_REQUEST.value(),"删除失败");
     }
 
 
-    public User queryBuUsername(String name) {
-        return userMapper.queryByName(name);
+    public Result<User> queryByNickName(String nickName) {
+        User user = userMapper.queryByName(nickName);
+        return Result.success(user);
     }
 
     /**
@@ -94,7 +82,13 @@ public class UserService {
      * @param user
      * @return
      */
-    public User queryByUser(User user) {
-         return userMapper.selectOne(user);
+    public Result<User> queryByUser(User user) {
+        User user1 = userMapper.selectOne(user);
+        return Result.success(user1);
+    }
+
+    public Result<User> queryByPhone(String phone) {
+        User user = userMapper.queryByPhone(phone);
+        return Result.success(user);
     }
 }

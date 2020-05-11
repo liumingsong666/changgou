@@ -33,7 +33,7 @@ spring:
       web-stat-filter:
         enabled: true #是否启用StatFilter默认值true
         url-pattern: /*
-        exclusions: /druid/*,*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico
+        exclusions: /druid/*,*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/v2/api-docs
         session-stat-enable: true
         session-stat-max-count: 10
       #StatViewServlet配置，说明请参考Druid Wiki，配置_StatViewServlet配置
@@ -98,8 +98,7 @@ logging:
   level:
     root: info
 #定向的包的日志级别
-    com:
-      song: debug
+    com.song: debug
 
 ribbon:
   ConnectTimeout: 1000

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.song.mapper.LoginLogMapper">
+
+    <resultMap type="com.song.entity.LoginLog" id="LoginLogMap">
+        <result property="loginId" column="login_id" jdbcType="INTEGER"/>
+        <result property="customerId" column="customer_id" jdbcType="INTEGER"/>
+        <result property="loginTime" column="login_time" jdbcType="TIMESTAMP"/>
+        <result property="loginIp" column="login_ip" jdbcType="VARCHAR"/>
+        <result property="loginType" column="login_type" jdbcType="TINYINT"/>
+        <result property="loginFlag" column="login_flag" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="LoginLogMap">
+        select
+          login_id, customer_id, login_time, login_ip, login_type ,login_flag
+        from changgou.login_log
+        where login_id = #{loginId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="LoginLogMap">
+        select
+          login_id, customer_id, login_time, login_ip, login_type,login_flag
+        from changgou.login_log
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="LoginLogMap">
+        select
+        login_id, customer_id, login_time, login_ip, login_type,login_flag
+        from changgou.login_log
+        <where>
+            <if test="loginId != null">
+                and login_id = #{loginId}
+            </if>
+            <if test="customerId != null">
+                and customer_id = #{customerId}
+            </if>
+            <if test="loginTime != null">
+                and login_time = #{loginTime}
+            </if>
+            <if test="loginIp != null">
+                and login_ip = #{loginIp}
+            </if>
+            <if test="loginType != null">
+                and login_type = #{loginType}
+            </if>
+            <if test="loginFlag != null">
+                and loginFlag = #{loginFlag}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insertAll" keyProperty="loginId" useGeneratedKeys="true">
+        insert into changgou.login_log(customer_id, login_time, login_ip, login_type ,login_flag)
+        values (#{customerId}, #{loginTime}, #{loginIp}, #{loginType},#{loginFlag})
+    </insert>
+
+
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from changgou.login_log where login_id = #{loginId}
+    </delete>
+
+</mapper>

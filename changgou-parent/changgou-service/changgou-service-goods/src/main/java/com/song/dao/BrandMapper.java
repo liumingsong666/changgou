@@ -1,4 +1,4 @@
-package com.changgou.dao;
+package com.song.dao;
 
 import com.changgou.goods.pojo.Brand;
 import org.springframework.stereotype.Repository;

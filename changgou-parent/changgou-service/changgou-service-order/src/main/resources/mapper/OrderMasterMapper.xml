@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.song.dao.OrderMasterMapper">
+
+    <resultMap type="com.song.entity.OrderMaster" id="OrderMasterMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="orderId" column="order_id" jdbcType="OTHER"/>
+        <result property="customerId" column="customer_id" jdbcType="OTHER"/>
+        <result property="shippingUser" column="shipping_user" jdbcType="VARCHAR"/>
+        <result property="shippingAddr" column="shipping_addr" jdbcType="VARCHAR"/>
+        <result property="payMethod" column="pay_method" jdbcType="OTHER"/>
+        <result property="orderMoney" column="order_money" jdbcType="NUMERIC"/>
+        <result property="payMoney" column="pay_money" jdbcType="NUMERIC"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="payTime" column="pay_time" jdbcType="TIMESTAMP"/>
+        <result property="orderStatus" column="order_status" jdbcType="OTHER"/>
+        <result property="orderPoint" column="order_point" jdbcType="OTHER"/>
+        <result property="modifiedTime" column="modified_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="OrderMasterMap">
+        select
+          id, order_id, customer_id, shipping_user, shipping_addr, pay_method, order_money, pay_money, create_time, pay_time, order_status, order_point, modified_time
+        from changgou.order_master
+        where id = #{id}
+    </select>
+
+
+
+</mapper>

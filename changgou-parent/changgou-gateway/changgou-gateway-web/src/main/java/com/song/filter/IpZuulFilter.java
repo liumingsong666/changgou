@@ -1,6 +1,9 @@
 package com.song.filter;
 
+import com.alibaba.fastjson.JSON;
 import com.song.cache.CacheService;
+import com.song.entity.Result;
+import com.song.utils.IPUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import sun.net.util.IPAddressUtil;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,13 +41,14 @@ public class IpZuulFilter extends AbstractZuulFilter {
     @Autowired
     private CacheManager cacheManager;
 
+
     @SneakyThrows
     @Override
     public Object run() {
         //获取真实ip
 
         HttpServletRequest request = currentContext.getRequest();
-        String remoteAddr = request.getRemoteAddr();
+        String remoteAddr = IPUtil.getIpAddress(request);
         //RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         Object cacheInfo = ipCacheServiceImpl.getCacheInfo(remoteAddr);
         String uri = request.getRequestURI();
@@ -81,8 +86,8 @@ public class IpZuulFilter extends AbstractZuulFilter {
         }
         currentContext.setSendZuulResponse(false);
         HttpServletResponse response = currentContext.getResponse();
-        response.setContentType(MediaType.TEXT_HTML_VALUE);
-        currentContext.getResponse().sendError(HttpStatus.BAD_REQUEST.value(), "ip限制");
+        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+        response.getWriter().write(JSON.toJSONString(Result.fail(HttpStatus.BAD_GATEWAY.value(),"点击次数过快，ip被限制使用")));
         return null;
     }
 

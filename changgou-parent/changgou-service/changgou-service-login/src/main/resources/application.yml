@@ -1,5 +1,7 @@
 server:
   port: 8000
+  servlet:
+    context-path: /login
 
 #整合第三方登录的框架
 justauth:
@@ -47,13 +49,16 @@ ribbon:
   ConnectTimeout: 7000
   ReadTimeout: 7000
 
+
 hystrix:
   command:
     default:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 10
+            timeoutInMilliseconds: 10000
+        strategy: SEMAPHORE
+
   threadpool:
     default:
       coreSize: 80
@@ -88,4 +93,7 @@ mybatis:
   type-aliases-package: com.song.entity
   mapper-locations: classpath:/mapper/*.xml
 
-
+#开启feign的熔断之后，需要将hystrix的隔离策略改为信号量，不然就是一个新的线程，无法获取requestcontextholder的请求数据
+feign:
+  hystrix:
+    enabled: true

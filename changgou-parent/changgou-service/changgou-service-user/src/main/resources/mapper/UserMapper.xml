@@ -4,20 +4,22 @@
 
     <resultMap type="com.song.entity.User" id="UserMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
-        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="nickName" column="nick_name" jdbcType="VARCHAR"/>
         <result property="password" column="password" jdbcType="VARCHAR"/>
         <result property="age" column="age" jdbcType="INTEGER"/>
-        <result property="phone" column="phone" jdbcType="INTEGER"/>
-        <result property="loginTime" column="login_time" jdbcType="TIMESTAMP"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="roleId" column="role_id" jdbcType="INTEGER"/>
+        <result property="creatTime" column="creat_time" jdbcType="TIMESTAMP"/>
+        <result property="version" column="version" jdbcType="INTEGER"/>
     </resultMap>
 
-    <sql id="allCol" >
-        id, name,password, age, phone, login_time,role_id,version
+    <sql id="allCol">
+        id, nick_name,password, age, phone, creat_time,role_id,version
     </sql>
     <!--查询单个-->
-    <select id="queryById" resultMap="UserMap" >
+    <select id="queryById" resultMap="UserMap">
         select
-          <include refid="allCol" />
+        <include refid="allCol"/>
         from tb_user
         where id = #{id}
     </select>
@@ -25,7 +27,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="UserMap">
         select
-        <include refid="allCol" />
+        <include refid="allCol"/>
         from tb_user
         limit #{offset}, #{limit}
     </select>
@@ -33,14 +35,14 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="UserMap">
         select
-          <include refid="allCol" />
+        <include refid="allCol"/>
         from tb_user
         <where>
             <if test="id != null">
                 and id = #{id}
             </if>
-            <if test="name != null and name != ''">
-                and name = #{name}
+            <if test="nick_name != null and nick_name != ''">
+                and nick_name = #{nickName}
             </if>
             <if test="password != null and password != ''">
                 password = #{password},
@@ -51,46 +53,54 @@
             <if test="phone != null">
                 and phone = #{phone}
             </if>
-            <if test="loginTime != null">
-                and login_time = #{loginTime}
+            <if test="creatTime != null">
+                and creat_time = #{creatTime}
             </if>
             <if test="roleId !=null and roleId != '' ">
                 and role_id=#{roleId}
             </if>
-            <if test="version != null" >
+            <if test="version != null">
                 and version=#{version}
             </if>
         </where>
     </select>
-    <select id="queryByName" resultType="com.song.entity.User">
-        select <include refid="allCol" /> from tb_user where name=#{name}
+    <select id="queryByName" resultMap="UserMap">
+        select
+        <include refid="allCol"/>
+        from tb_user where nick_name=#{nickName}
+    </select>
+    <select id="queryByPhone" resultMap="UserMap">
+        select
+        <include refid="allCol"/>
+        from tb_user where phone = #{phone}
+
     </select>
 
 
     <!--通过主键修改数据-->
     <update id="update">
         update tb_user set
-            <if test="name != null and name != ''">
-                name = #{name},
-            </if>
+        <if test="nick_name != null and nick_name != ''">
+            nick_name = #{nickName},
+        </if>
 
-            <if test="password != null and password != ''">
-                password = #{password},
-            </if>
+        <if test="password != null and password != ''">
+            password = #{password},
+        </if>
 
-            <if test="age != null">
-                age = #{age},
-            </if>
-            <if test="phone != null">
-                phone = #{phone},
-            </if>
-            <if test="loginTime != null">
-                login_time = #{loginTime},
-            </if>
-            <if test="roleId != null">
-                role_id=#{roleId},
-            </if>
-            version += 1
+        <if test="age != null">
+            age = #{age},
+        </if>
+        <if test="phone != null">
+            phone = #{phone},
+        </if>
+        <if test="creatTime != null">
+            creat_time = #{creatTime},
+        </if>
+        <if test="roleId != null">
+            role_id=#{roleId},
+        </if>
+        version += 1
         where id = #{id} and version=#{version}
     </update>
 

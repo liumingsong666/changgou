@@ -11,6 +11,7 @@ public interface Constant {
         String REDIS_IP_LIMIT = "REDIS_IP_LIMIT_";
         Long REDIS_IMAGE_TTL = 60L;
     }
+
     interface token {
         String TOKEN_AUTHOR="AUTHOR";
     }

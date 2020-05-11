@@ -1,4 +1,4 @@
-package com.changgou.service;
+package com.song.service;
 
 import com.song.entity.Result;
 import com.changgou.goods.pojo.Brand;

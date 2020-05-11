@@ -25,9 +25,9 @@ public class RequestContextAspect {
     public static ThreadLocal<RequestDTO<?>> local = new ThreadLocal();
 
     @Pointcut("@annotation(org.springframework.web.bind.annotation.RestController) || @annotation(org.springframework.stereotype.Controller)")
-    public void requestContestPoinCut(){}
+    public void requestContestPointCut(){}
 
-    @Around("requestContestPoinCut()")
+    @Around("requestContestPointCut()")
     public Object RequestContextAround(ProceedingJoinPoint joinPoint) throws Throwable {
         Object[] args = joinPoint.getArgs();
         Arrays.stream(args).forEach(arg->{

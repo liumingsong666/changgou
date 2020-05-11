@@ -20,6 +20,7 @@
         <module>changgou-server-websocket</module>
         <module>changgou-server-mq</module>
         <module>changgou-service-schedul</module>
+        <module>changgou-service-order</module>
     </modules>
     <dependencies>
         <dependency>

@@ -24,7 +24,7 @@ import org.springframework.jmx.support.RegistrationPolicy;
 public class RedisConfig {
 
 
-    @Bean
+    //@Bean
     public RedisTemplate<Object ,Object> redisTemplate(RedisConnectionFactory redisConnectionFactory){
         RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);

@@ -57,8 +57,16 @@ public interface UserMapper extends Mapper<User> {
 
     /**
      * 通过用户名查询
-     * @param name
+     * @param nickName
      * @return
      */
-    User queryByName(String name);
+    User queryByName(@Param("nickName") String nickName);
+
+    /**
+     * @author: mingsong.liu
+     * @time: 2020-05-10 13:22
+     * @description: 通过手机获取对象
+     *
+     */
+    User queryByPhone(@Param("phone") String phone);
 }

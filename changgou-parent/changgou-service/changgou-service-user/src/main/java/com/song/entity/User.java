@@ -34,28 +34,28 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @ApiModelProperty("ID")
-    private Integer id;
+    private Long id;
 
-    @ApiModelProperty("姓名")
-    @Column(name = "name")
-    protected String name;
+    @ApiModelProperty("昵称")
+    @Column(name = "nick_name")
+    private String nickName;
 
     @ApiModelProperty("password")
     @Column(name = "password")
-    protected String password;
+    private String password;
 
     @ApiModelProperty("手机号")
     @Column(name = "phone")
-    protected Integer phone;
+    private String phone;
 
     @Column(name = "age")
     @ApiModelProperty("年龄")
     private Integer age;
 
-    @Column(name = "login_time")
-    @ApiModelProperty("登录时间")
+    @Column(name = "creat_time")
+    @ApiModelProperty("更新用户时间")
     @JsonFormat(pattern = "yyy-MM-dd HH:mm:ss")
-    private Date loginTime;
+    private Date creatTime;
 
     @Column(name = "role_id")
     @ApiModelProperty("角色id")

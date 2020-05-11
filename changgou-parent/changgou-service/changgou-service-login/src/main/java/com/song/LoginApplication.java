@@ -1,10 +1,11 @@
 package com.song;
 
-import org.mybatis.spring.annotation.MapperScan;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import tk.mybatis.spring.annotation.MapperScan;
 
 /**
  * @Auther: mingsong.liu
@@ -15,7 +16,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @EnableEurekaClient
 @EnableFeignClients
-@MapperScan(basePackages = {"com.song.dao"})
+@MapperScan(basePackages = {"com.song.mapper"})
 public class LoginApplication {
 
     public static void main(String[] args) {

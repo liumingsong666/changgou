@@ -2,7 +2,7 @@ package com.changgou.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.changgou.goods.pojo.Brand;
-import com.changgou.service.BrandService;
+import com.song.service.BrandService;
 import com.github.stuxuhai.jpinyin.PinyinHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,10 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 

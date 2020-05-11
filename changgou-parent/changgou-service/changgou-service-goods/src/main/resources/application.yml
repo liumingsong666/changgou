@@ -61,8 +61,8 @@ eureka:
   client:
     service-url:
       defaultZone: http://song:song@127.0.0.1:7000/eureka
-#  instance:
-#    prefer-ip-address: true
+  instance:
+    prefer-ip-address: true
 feign:
   hystrix:
     enabled: true

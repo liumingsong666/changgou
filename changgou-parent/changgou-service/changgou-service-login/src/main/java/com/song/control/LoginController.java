@@ -2,6 +2,7 @@ package com.song.control;
 
 import com.song.entity.Constant;
 import com.song.cache.CacheService;
+import com.song.utils.IPUtil;
 import com.wf.captcha.ArithmeticCaptcha;
 import com.wf.captcha.base.Captcha;
 import com.xkcoding.justauth.AuthRequestFactory;
@@ -36,7 +37,7 @@ public class LoginController {
     @Autowired
     private AuthRequestFactory authRequestFactory;
 
-    @GetMapping("/login/three/{type}")
+    @GetMapping("/three/{type}")
     public void login(@PathVariable("type") String type , HttpServletResponse response) throws IOException {
         AuthRequest authRequest = authRequestFactory.get(type);
         response.sendRedirect(authRequest.authorize(AuthStateUtils.createState()));
@@ -54,7 +55,7 @@ public class LoginController {
     @Autowired
     private CacheService redisCacheServiceImpl;
 
-    @GetMapping("/login/captcha")
+    @GetMapping("/captcha")
     public void getImageCode(HttpServletRequest request,HttpServletResponse response) throws IOException, FontFormatException {
         //引入的第三方包
         ArithmeticCaptcha arithmeticCaptcha = new ArithmeticCaptcha(130, 48);
@@ -62,19 +63,19 @@ public class LoginController {
         arithmeticCaptcha.toBase64();
         //获取运算结果
         String text = arithmeticCaptcha.text();
-        String remoteAddr = request.getRemoteAddr();
+        String remoteAddr = IPUtil.getIpAddress(request);
         //将验证码存入redis，以ip为限制
         redisCacheServiceImpl.setCacheInfo(Constant.redis.REDIS_IMAGE_CODE +remoteAddr,text,Constant.redis.REDIS_IMAGE_TTL, TimeUnit.SECONDS);
         arithmeticCaptcha.out(response.getOutputStream());
     }
 
-    @RequestMapping("/login")
+    @RequestMapping("/home")
     public void login(HttpServletRequest request,HttpServletResponse response) throws IOException, ServletException {
         response.sendRedirect("/page/index.html");
 
     }
 
-    @RequestMapping("/login/test")
+    @RequestMapping("/test")
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_超级管理员')")
     public String test(){

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @Author: mingsong.liu
  * @Date: 2020-04-26 17:02
- * @Description:
+ * @Description: 可以这样先制定队列和交换机，也可以在消费端指定
  */
 
 @Configuration

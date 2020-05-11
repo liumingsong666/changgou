@@ -1,10 +1,13 @@
 package com.song.utils;
 
+import com.google.common.collect.Maps;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Author: mingsong.liu
@@ -18,18 +21,21 @@ public class JwtUtil {
 
     private static final String ISSUER = "zuul";
 
-    public static String getToken(String username,String Ip){
-        return Jwts.builder().setIssuer(ISSUER).claim("username",username)
+    public static String getToken(Map<String,Object> claims){
+        return Jwts.builder().setIssuer(ISSUER).addClaims(claims)
                 .setExpiration(new Date(System.currentTimeMillis()+3600000))
-                .signWith(SignatureAlgorithm.HS256,SECRET+Ip).compact();
+                .signWith(SignatureAlgorithm.HS256,SECRET).compact();
     }
 
-    public static Claims checkToken(String token,String Ip){
-        return Jwts.parser().setSigningKey(SECRET+Ip).parseClaimsJws(token).getBody();
+    public static Claims checkToken(String token){
+        return Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
     }
 
     public static void main(String[] args) {
-        String song = getToken("song", "0:0:0:0:0:0:0:1");
+        HashMap<String, Object> map = Maps.newHashMap();
+        map.put("nickName","刘小铭");
+        map.put("phone",10086);
+        String song = getToken(map);
         System.out.println(song);
     }
 

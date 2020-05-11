@@ -1,6 +1,6 @@
-package com.changgou.service;
+package com.song.service;
 
-import com.changgou.dao.BrandMapper;
+import com.song.dao.BrandMapper;
 import com.song.entity.Result;
 import com.song.entity.StatusCode;
 import com.changgou.goods.pojo.Brand;

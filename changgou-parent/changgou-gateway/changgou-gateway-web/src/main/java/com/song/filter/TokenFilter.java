@@ -1,16 +1,17 @@
 package com.song.filter;
 
+import com.alibaba.fastjson.JSON;
 import com.song.entity.Constant;
+import com.song.entity.Result;
 import com.song.utils.JwtUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
 import java.util.Objects;
 
 /**
@@ -33,28 +34,34 @@ public class TokenFilter extends AbstractZuulFilter {
     public Object run() {
 
         HttpServletRequest request = currentContext.getRequest();
-        String author = request.getHeader(Constant.token.TOKEN_AUTHOR);
         HttpServletResponse response = currentContext.getResponse();
-        response.setContentType(MediaType.TEXT_HTML_VALUE);
         String uri = request.getRequestURI();
 
         if (this.uri.contains(uri)) {
             return null;
         }
-        if (Objects.isNull(author)) {
-            response.sendRedirect("/page/index.html");
-            //response.sendRedirect("http://localhost:8200/page/index.html");
-            currentContext.setSendZuulResponse(false);
+        if (uri.startsWith("/login") || uri.endsWith("/v2/api-docs")) {
             return null;
         }
+
+        String token = request.getHeader(Constant.token.TOKEN_AUTHOR);
+        if (Objects.isNull(token)) {
+            String reUri = "/login/page/index.html?redirect_uri=" + URLEncoder.encode(request.getRequestURL().toString(), "UTF-8");
+            currentContext.setSendZuulResponse(false);
+            response.sendRedirect(reUri);
+
+            return null;
+        }
+
+
         try {
-            String remoteAddr = request.getRemoteAddr();
-            JwtUtil.checkToken(author,remoteAddr);
+            JwtUtil.checkToken(token);
             currentContext.setSendZuulResponse(true);
         } catch (ExpiredJwtException e) {
             currentContext.setSendZuulResponse(false);
-            //response.sendRedirect("/login/changgou");
-            response.sendError(HttpStatus.UNAUTHORIZED.value(), "令牌过期");
+            Result result = Result.fail(HttpStatus.BAD_GATEWAY.value(), "令牌过期");
+            response.setContentType("application/json;charset=utf-8");
+            response.getWriter().write(JSON.toJSONString(result));
         } catch (Exception e) {
             currentContext.setSendZuulResponse(false);
             response.sendError(HttpStatus.UNAUTHORIZED.value(), "令牌错误");

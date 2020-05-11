@@ -18,8 +18,8 @@ eureka:
       defaultZone: http://song:song@localhost:7000/eureka
 
       #将Ip注册上去
-#  instance:
-#    prefer-ip-address: true
+  instance:
+    prefer-ip-address: true
 #    ip-address: ${spring.cloud.client.ip-address}:${server.port}
 
 ribbon:
@@ -32,7 +32,8 @@ hystrix:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 10000
+            timeoutInMilliseconds: 10000 # 熔断超时时长：10000ms
+
 
 ---
 spring:
@@ -75,29 +76,19 @@ spring:
 spring:
   profiles: zuul
 
-  redis:
-    timeout: 5000
-    host: localhost
-  datasource:
-    password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/changgou?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&useSSL=false
-    username: root
-
-
 
 
 zuul:
   routes:
     goods:
-      path: /brand/**
+      path: /goods/**
       serviceId: GOODS
-      stripPrefix: false
+      stripPrefix: true
 
     user:
       path: /user/**
       serviceId: USER
-      stripPrefix: false
+      stripPrefix: true
 
     websocket:
       path: /websocket/**
@@ -108,17 +99,18 @@ zuul:
       serviceId: LOGIN
       stripPrefix: false
 
+    order:
+      path: /order/**
+      serviceId: ORDER
+      stripPrefix: true
 
-    login2:
-      path: /wx/callback/**
-      serviceId: LOGIN
 
-    login-static:
-      path: /page/**
-      serviceId: LOGIN
   #add-host-header: true
-  sensitive-headers:
+  sensitive-headers: '*'
+  retryable: false
 
+  #忽略路由
+  ignored-services: '*'
 
 #是否开启swagger
 swagger:

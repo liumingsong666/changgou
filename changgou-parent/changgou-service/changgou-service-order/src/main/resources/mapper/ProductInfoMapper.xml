@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.song.dao.ProductInfoMapper">
+
+    <resultMap type="com.song.entity.ProductInfo" id="ProductInfoMap">
+        <result property="productId" column="product_id" jdbcType="INTEGER" />
+        <result property="productName" column="product_name" jdbcType="VARCHAR"/>
+        <result property="brandId" column="brand_id" jdbcType="INTEGER"/>
+        <result property="price" column="price" jdbcType="NUMERIC"/>
+        <result property="publishStatus" column="publish_status" jdbcType="TINYINT"/>
+        <result property="auditStatus" column="audit_status" jdbcType="TINYINT"/>
+        <result property="describe" column="describe" jdbcType="VARCHAR"/>
+        <result property="indate" column="indate" jdbcType="TIMESTAMP"/>
+        <result property="modifiedTime" column="modified_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="columnAll" >
+        product_id, product_name, brand_id, price, publish_status, audit_status, `describe`, indate, modified_time
+    </sql>
+    <!--查询单个-->
+    <select id="queryById" resultMap="ProductInfoMap">
+        select
+            <include refid="columnAll" />
+        from product_info
+        where product_id = #{productId}
+    </select>
+
+
+    <select id="queryByIds" resultMap="ProductInfoMap" >
+        select
+        product_id, product_name, price, publish_status, `describe`
+        from product_info
+        where product_id in
+        <foreach collection="ids" open="(" close=")" item="id" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+
+</mapper>

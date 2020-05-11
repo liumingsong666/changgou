@@ -1,5 +1,6 @@
 package com.song.controller;
 
+import com.song.entity.Constant;
 import com.song.entity.Result;
 import com.song.controller.api.GoodsRPC;
 import com.song.entity.User;
@@ -12,17 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -31,9 +28,9 @@ import javax.validation.constraints.NotBlank;
  * @author mingsong.liu
  * @since 2020-04-13 00:28:07
  */
-@Api(tags = "用户表(User)")
+@Api(tags = "USER")
 @RestController
-@RequestMapping("/user")
+//@RequestMapping("/user")
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
@@ -54,30 +51,30 @@ public class UserController {
      */
     @ApiOperation(value = "根据id查询 用户表")
     @GetMapping("/select/{id}")
-    public User selectOne(@ApiParam(value = "ID") @PathVariable("id") Integer id) {
+    public Result<User> selectOne(@ApiParam(value = "ID") @PathVariable("id") Integer id ,HttpServletRequest request) {
+        String token = request.getHeader(Constant.token.TOKEN_AUTHOR);
         Result goods = goodsRPC.getGoods(id);
-        log.info("rpc的结果：{}", goods.getData());
+        log.info("rpc的结果：{} , token: {}", goods.getData(),token);
         return this.userService.queryById(id);
 
     }
 
 
-    @GetMapping("/select")
-    @ApiOperation(value = "根据用户名查询 用户表")
-    public User login(@NotBlank @RequestParam("username")String username ,HttpServletRequest request,HttpServletResponse response){
-        HttpSession session = request.getSession();
-        session.setAttribute("username",username);
-        Cookie[] cookies = request.getCookies();
+    @GetMapping("/select/nickname")
+    @ApiOperation(value = "根据用户名查询用户登录")
+    public Result<User> loginByNickName(@NotBlank @RequestParam("username")String nickName ){
 
-        Cookie cookie = new Cookie("song", "song");
-        cookie.setMaxAge(10);
-        cookie.setHttpOnly(true);
-        response.addCookie(cookie);
-        return userService.queryBuUsername(username);
+        return userService.queryByNickName(nickName);
+    }
+
+    @GetMapping("/select/phone")
+    @ApiOperation("根据手机号查询用户登录")
+    public Result<User> loginByPhone(@NotBlank(message = "手机号不能为空") @RequestParam String phone){
+        return userService.queryByPhone(phone);
     }
 
     @PostMapping("/select/userinfo")
-    public User queryByUser(@RequestBody @NonNull User user){
+    public Result<User> queryByUser(@RequestBody @NonNull User user){
         return userService.queryByUser(user);
     }
 }
