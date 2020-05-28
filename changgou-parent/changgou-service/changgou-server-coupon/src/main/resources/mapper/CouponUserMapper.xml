@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.song.mapper.CouponUserMapper">
+
+    <resultMap type="com.song.entity.CouponUser" id="CouponUserMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="couponId" column="coupon_id" jdbcType="VARCHAR"/>
+        <result property="bizCode" column="biz_code" jdbcType="VARCHAR"/>
+        <result property="bizSource" column="biz_source" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CouponUserMap">
+        select
+          id, coupon_id, biz_code, biz_source, user_id, create_time
+        from changgou.coupon_user
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CouponUserMap">
+        select
+          id, coupon_id, biz_code, biz_source, user_id, create_time
+        from changgou.coupon_user
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="CouponUserMap">
+        select
+          id, coupon_id, biz_code, biz_source, user_id, create_time
+        from changgou.coupon_user
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="couponId != null and couponId != ''">
+                and coupon_id = #{couponId}
+            </if>
+            <if test="bizCode != null and bizCode != ''">
+                and biz_code = #{bizCode}
+            </if>
+            <if test="bizSource != null">
+                and biz_source = #{bizSource}
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into changgou.coupon_user(coupon_id, biz_code, biz_source, user_id, create_time)
+        values (#{couponId}, #{bizCode}, #{bizSource}, #{userId}, #{createTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update changgou.coupon_user
+        <set>
+            <if test="couponId != null and couponId != ''">
+                coupon_id = #{couponId},
+            </if>
+            <if test="bizCode != null and bizCode != ''">
+                biz_code = #{bizCode},
+            </if>
+            <if test="bizSource != null">
+                biz_source = #{bizSource},
+            </if>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from changgou.coupon_user where id = #{id}
+    </delete>
+
+</mapper>

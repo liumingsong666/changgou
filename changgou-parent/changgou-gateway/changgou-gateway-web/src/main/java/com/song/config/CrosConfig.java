@@ -11,7 +11,7 @@ import org.springframework.web.filter.CorsFilter;
 /**
  * @Author: mingsong.liu
  * @Date: 2020-04-28 21:52
- * @Description:
+ * @Description: 解决跨域问题
  */
 
 @Configuration

@@ -54,6 +54,10 @@ public class IpZuulFilter extends AbstractZuulFilter {
         String uri = request.getRequestURI();
         if (Objects.isNull(cacheInfo)) {
 
+            if (uri.startsWith("/login") || uri.endsWith("/v2/api-docs")) {
+                return null;
+            }
+
             String remoteHost = request.getRemoteHost();
             String remoteUser = request.getRemoteUser();
             log.info("IP为：{}，地址为：{}，用户为：{}，uri: {}", remoteAddr, remoteHost, remoteUser, request.getRequestURI());

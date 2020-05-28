@@ -16,7 +16,11 @@
         <module>changgou-gateway-web2</module>
     </modules>
     <dependencies>
-
+        <dependency>
+        <!--整合redis-session共享，可以自定义存储-->
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
 
         <!--<dependency>
             <groupId>org.springframework.cloud</groupId>

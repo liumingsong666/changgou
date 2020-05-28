@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.net.URLEncoder;
 import java.util.Objects;
 
@@ -19,7 +20,7 @@ import java.util.Objects;
  * @Date: 2020-04-15 15:01
  * @Description: 令牌限制过滤器
  */
-@Component
+//@Component
 @Slf4j
 public class TokenFilter extends AbstractZuulFilter {
 
@@ -45,7 +46,16 @@ public class TokenFilter extends AbstractZuulFilter {
         }
 
         String token = request.getHeader(Constant.token.TOKEN_AUTHOR);
-        if (Objects.isNull(token)) {
+        //整合了Redis--session共享，，可以自定义存储信息，登录成功后包含了security认证token
+        //redis的key: changgou:session:sessions:xxxx (sessionId)
+        HttpSession session = null;
+        try{
+             session=request.getSession(false);
+        }catch (Exception e){
+            log.info("获取sessionRedis异常：{}",e.getMessage());
+        }
+
+        if (Objects.isNull(session)) {
             String reUri = "/login/page/index.html?redirect_uri=" + URLEncoder.encode(request.getRequestURL().toString(), "UTF-8");
             currentContext.setSendZuulResponse(false);
             response.sendRedirect(reUri);
@@ -55,7 +65,8 @@ public class TokenFilter extends AbstractZuulFilter {
 
 
         try {
-            JwtUtil.checkToken(token);
+            //JwtUtil.checkToken(token);
+
             currentContext.setSendZuulResponse(true);
         } catch (ExpiredJwtException e) {
             currentContext.setSendZuulResponse(false);

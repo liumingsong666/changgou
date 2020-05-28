@@ -22,6 +22,7 @@
         <module name="changgou-service-schedul" />
         <module name="changgou-service-goods-api" />
         <module name="changgou-service-file" />
+        <module name="changgou-server-coupon" />
         <module name="changgou-service-goods" />
       </profile>
     </annotationProcessing>
@@ -34,6 +35,7 @@
       <module name="changgou-gateway" options="-parameters" />
       <module name="changgou-gateway-web" options="-parameters" />
       <module name="changgou-gateway-web2" options="-parameters" />
+      <module name="changgou-server-coupon" options="-parameters" />
       <module name="changgou-server-mq" options="-parameters" />
       <module name="changgou-server-websocket" options="-parameters" />
       <module name="changgou-service" options="-parameters" />

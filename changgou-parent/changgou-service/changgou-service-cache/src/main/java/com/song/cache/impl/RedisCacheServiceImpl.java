@@ -34,7 +34,6 @@ public class RedisCacheServiceImpl implements CacheService {
     @Override
     public Object getCacheInfo(String key) {
         return redisTemplate.opsForValue().get(key);
-
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.song.cache.config;
 
+import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,9 +8,11 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableMBeanExport;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.jmx.support.RegistrationPolicy;
 
@@ -24,7 +27,7 @@ import org.springframework.jmx.support.RegistrationPolicy;
 public class RedisConfig {
 
 
-    //@Bean
+    @Bean
     public RedisTemplate<Object ,Object> redisTemplate(RedisConnectionFactory redisConnectionFactory){
         RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
@@ -33,13 +36,28 @@ public class RedisConfig {
         redisTemplate.setHashKeySerializer(stringRedisSerializer);
 
         Jackson2JsonRedisSerializer<Object> objectJackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        objectJackson2JsonRedisSerializer.setObjectMapper(objectMapper);
+        getObjectMapper(objectJackson2JsonRedisSerializer);
 
         redisTemplate.setValueSerializer(objectJackson2JsonRedisSerializer);
         redisTemplate.setHashValueSerializer(objectJackson2JsonRedisSerializer);
         return redisTemplate;
+    }
+
+    //自定义session存储的序列化方式 todo 无法反序列化得到认证信息
+//    @Bean("springSessionDefaultRedisSerializer")
+//    @Primary
+//    public RedisSerializer<Object> defaultRedisSerializer(){
+//        FastJsonRedisSerializer<Object> fastJsonRedisSerializer = new FastJsonRedisSerializer<>(Object.class);
+//        //getObjectMapper(jackson2JsonRedisSerializer);
+//        return fastJsonRedisSerializer;
+//}
+
+
+    public void getObjectMapper(Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer){
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
+
     }
 }

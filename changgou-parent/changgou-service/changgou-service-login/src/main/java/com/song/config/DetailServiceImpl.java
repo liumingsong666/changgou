@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.Objects;
@@ -26,6 +27,7 @@ import java.util.Objects;
  */
 
 @Slf4j
+@Component
 public class DetailServiceImpl implements UserDetailsService {
 
     @Autowired

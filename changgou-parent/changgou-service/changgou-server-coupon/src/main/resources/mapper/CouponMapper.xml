@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.song.mapper.CouponMapper">
+
+    <resultMap type="com.song.entity.Coupon" id="CouponMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="tempId" column="temp_id" jdbcType="VARCHAR"/>
+        <result property="couponId" column="coupon_id" jdbcType="VARCHAR"/>
+        <result property="couponName" column="coupon_name" jdbcType="VARCHAR"/>
+        <result property="couponDesc" column="coupon_desc" jdbcType="VARCHAR"/>
+        <result property="couponStatus" column="coupon_status" jdbcType="OTHER"/>
+        <result property="couponType" column="coupon_type" jdbcType="OTHER"/>
+        <result property="couponMoneyMin" column="coupon_money_min" jdbcType="NUMERIC"/>
+        <result property="couponMoneyMax" column="coupon_money_max" jdbcType="NUMERIC"/>
+        <result property="couponValue" column="coupon_value" jdbcType="NUMERIC"/>
+        <result property="couponStartTime" column="coupon_start_time" jdbcType="TIMESTAMP"/>
+        <result property="couponEndTime" column="coupon_end_time" jdbcType="TIMESTAMP"/>
+        <result property="drawTime" column="draw_time" jdbcType="TIMESTAMP"/>
+        <result property="useTime" column="use_time" jdbcType="TIMESTAMP"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CouponMap">
+        select
+          id, temp_id, coupon_id, coupon_name, coupon_desc, coupon_status, coupon_type, coupon_money_min, coupon_money_max, coupon_value, coupon_start_time, coupon_end_time, draw_time, use_time, create_time
+        from changgou.coupon
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CouponMap">
+        select
+          id, temp_id, coupon_id, coupon_name, coupon_desc, coupon_status, coupon_type, coupon_money_min, coupon_money_max, coupon_value, coupon_start_time, coupon_end_time, draw_time, use_time, create_time
+        from changgou.coupon
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="CouponMap">
+        select
+          id, temp_id, coupon_id, coupon_name, coupon_desc, coupon_status, coupon_type, coupon_money_min, coupon_money_max, coupon_value, coupon_start_time, coupon_end_time, draw_time, use_time, create_time
+        from changgou.coupon
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="tempId != null and tempId != ''">
+                and temp_id = #{tempId}
+            </if>
+            <if test="couponId != null and couponId != ''">
+                and coupon_id = #{couponId}
+            </if>
+            <if test="couponName != null and couponName != ''">
+                and coupon_name = #{couponName}
+            </if>
+            <if test="couponDesc != null and couponDesc != ''">
+                and coupon_desc = #{couponDesc}
+            </if>
+            <if test="couponStatus != null">
+                and coupon_status = #{couponStatus}
+            </if>
+            <if test="couponType != null">
+                and coupon_type = #{couponType}
+            </if>
+            <if test="couponMoneyMin != null">
+                and coupon_money_min = #{couponMoneyMin}
+            </if>
+            <if test="couponMoneyMax != null">
+                and coupon_money_max = #{couponMoneyMax}
+            </if>
+            <if test="couponValue != null">
+                and coupon_value = #{couponValue}
+            </if>
+            <if test="couponStartTime != null">
+                and coupon_start_time = #{couponStartTime}
+            </if>
+            <if test="couponEndTime != null">
+                and coupon_end_time = #{couponEndTime}
+            </if>
+            <if test="drawTime != null">
+                and draw_time = #{drawTime}
+            </if>
+            <if test="useTime != null">
+                and use_time = #{useTime}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into changgou.coupon(temp_id, coupon_id, coupon_name, coupon_desc, coupon_status, coupon_type, coupon_money_min, coupon_money_max, coupon_value, coupon_start_time, coupon_end_time, draw_time, use_time, create_time)
+        values (#{tempId}, #{couponId}, #{couponName}, #{couponDesc}, #{couponStatus}, #{couponType}, #{couponMoneyMin}, #{couponMoneyMax}, #{couponValue}, #{couponStartTime}, #{couponEndTime}, #{drawTime}, #{useTime}, #{createTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update changgou.coupon
+        <set>
+            <if test="tempId != null and tempId != ''">
+                temp_id = #{tempId},
+            </if>
+            <if test="couponId != null and couponId != ''">
+                coupon_id = #{couponId},
+            </if>
+            <if test="couponName != null and couponName != ''">
+                coupon_name = #{couponName},
+            </if>
+            <if test="couponDesc != null and couponDesc != ''">
+                coupon_desc = #{couponDesc},
+            </if>
+            <if test="couponStatus != null">
+                coupon_status = #{couponStatus},
+            </if>
+            <if test="couponType != null">
+                coupon_type = #{couponType},
+            </if>
+            <if test="couponMoneyMin != null">
+                coupon_money_min = #{couponMoneyMin},
+            </if>
+            <if test="couponMoneyMax != null">
+                coupon_money_max = #{couponMoneyMax},
+            </if>
+            <if test="couponValue != null">
+                coupon_value = #{couponValue},
+            </if>
+            <if test="couponStartTime != null">
+                coupon_start_time = #{couponStartTime},
+            </if>
+            <if test="couponEndTime != null">
+                coupon_end_time = #{couponEndTime},
+            </if>
+            <if test="drawTime != null">
+                draw_time = #{drawTime},
+            </if>
+            <if test="useTime != null">
+                use_time = #{useTime},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from changgou.coupon where id = #{id}
+    </delete>
+
+</mapper>

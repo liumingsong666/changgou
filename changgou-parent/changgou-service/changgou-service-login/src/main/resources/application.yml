@@ -1,7 +1,6 @@
 server:
   port: 8000
-  servlet:
-    context-path: /login
+
 
 #整合第三方登录的框架
 justauth:
@@ -82,16 +81,26 @@ eureka:
       defaultZone: http://song:song@127.0.0.1:7000/eureka
   instance:
     prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
 
 
+#自定义属性
 #存放redis中的验证码前缀
 redis:
   image:
     code: REDIS_IMAGE_CODE_
+    ttl: 60
 
 mybatis:
   type-aliases-package: com.song.entity
   mapper-locations: classpath:/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true  #开启驼峰命名,l_name -> lName
+    lazy-loading-enabled: true
+    aggressive-lazy-loading: true
+    cache-enabled: true #开启二级缓存
+    call-setters-on-nulls: true #map空列不显示问题
+
 
 #开启feign的熔断之后，需要将hystrix的隔离策略改为信号量，不然就是一个新的线程，无法获取requestcontextholder的请求数据
 feign:

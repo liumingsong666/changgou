@@ -54,7 +54,7 @@ public class User implements Serializable {
 
     @Column(name = "creat_time")
     @ApiModelProperty("更新用户时间")
-    @JsonFormat(pattern = "yyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyy-MM-dd HH:mm:ss" , timezone = "GMT+8")
     private Date creatTime;
 
     @Column(name = "role_id")

@@ -19,6 +19,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 @MapperScan("com.song.mapper")
 @EnableCaching
 @EnableSwagger2
+//@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 600,redisNamespace = "changgou:user")
 public class UserApplication {
 
     public static void main(String[] args) {

@@ -7,14 +7,20 @@ package com.song.entity;
 public interface Constant {
 
     interface redis {
-        String REDIS_IMAGE_CODE = "REDIS_IMAGE_CODE_";
-        String REDIS_IP_LIMIT = "REDIS_IP_LIMIT_";
-        Long REDIS_IMAGE_TTL = 60L;
+        String REDIS_IMAGE_CODE = "redis:image:code:";
+        String REDIS_IP_LIMIT = "redis:ip:limit:";
     }
 
     interface token {
-        String TOKEN_AUTHOR="AUTHOR";
+        String TOKEN_AUTHOR = "AUTHOR";
+        String SESSION_USER = "username";
     }
+
+    interface session{
+        String REDIS_SESSION_PRENAME = "changgou:session";
+        int REDIS_SESSION_INVALIDATE = 36000;
+    }
+
 
 
 }

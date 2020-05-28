@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @ApiModel("角色表")
 public class Role implements Serializable {
+
     /**
      * 角色id
      */
@@ -25,5 +26,7 @@ public class Role implements Serializable {
      * 角色名
      */
     private String name;
+
+
 
 }

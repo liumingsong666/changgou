@@ -10,19 +10,29 @@ import me.zhyd.oauth.model.AuthCallback;
 import me.zhyd.oauth.model.AuthResponse;
 import me.zhyd.oauth.request.AuthRequest;
 import me.zhyd.oauth.utils.AuthStateUtils;
+import netscape.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.trace.http.HttpTrace;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -32,7 +42,14 @@ import java.util.concurrent.TimeUnit;
  */
 
 @Controller
+//@RequestMapping("/login")
 public class LoginController {
+
+    @Value("${redis.image.ttl:60}")
+    private long ttl;
+
+    @Value("${redis.image.code:redis:image:code}")
+    private String redisImageCode;
 
     @Autowired
     private AuthRequestFactory authRequestFactory;
@@ -65,7 +82,7 @@ public class LoginController {
         String text = arithmeticCaptcha.text();
         String remoteAddr = IPUtil.getIpAddress(request);
         //将验证码存入redis，以ip为限制
-        redisCacheServiceImpl.setCacheInfo(Constant.redis.REDIS_IMAGE_CODE +remoteAddr,text,Constant.redis.REDIS_IMAGE_TTL, TimeUnit.SECONDS);
+        redisCacheServiceImpl.setCacheInfo(redisImageCode +remoteAddr,text,ttl, TimeUnit.SECONDS);
         arithmeticCaptcha.out(response.getOutputStream());
     }
 
@@ -75,11 +92,19 @@ public class LoginController {
 
     }
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @RequestMapping("/test")
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_超级管理员')")
-    public String test(){
+    public String test(HttpServletRequest request){
         return "你有权限查看";
+    }
+
+    @GetMapping("/user")
+    public Principal user(Principal user){
+        return user;
     }
 
 }

@@ -7,10 +7,12 @@ import com.song.vo.OrderCartVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -34,7 +36,8 @@ public class OrderCartController {
         return orderCartService.cartUpdate(addCartDto);
     }
 
-    @GetMapping("cartshow")
+    @GetMapping("/cartshow")
+    @PreAuthorize("hasRole('ROLE_超级管理员')")
     @ApiOperation(value = "获取购物车信息",httpMethod = "GET" )
     public Result<List<OrderCartVo>> cartShow(){
         return orderCartService.cartShow();

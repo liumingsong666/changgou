@@ -1,16 +1,38 @@
 server:
   port: 9000
 
+  servlet:
+    session:
+      cookie:
+        name: CGSESSION
+
 spring:
   application:
     name: gateway
-  profiles:
-    active: zuul
+#  profiles:
+#    active: zuul
 
   security:
-    user:
-      name: song
-      password: song
+#    user:
+#      name: song
+#      password: song
+
+security:
+  basic:
+    enabled: false
+#--------------oauth2配置---------------
+
+  oauth2:
+    client:
+
+      access-token-uri: http://localhost:9000/login/oauth/token
+      user-authorization-uri: http://localhost:9000/login/oauth/authorize
+      #client-id: client_1
+    resource:
+      user-info-uri:  http://localhost:9000/login/user
+      prefer-token-info: false
+
+
 
 eureka:
   client:
@@ -20,7 +42,7 @@ eureka:
       #将Ip注册上去
   instance:
     prefer-ip-address: true
-#    ip-address: ${spring.cloud.client.ip-address}:${server.port}
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
 
 ribbon:
   ReadTimeout: 7000  #请求处理的超时时间
@@ -35,48 +57,9 @@ hystrix:
             timeoutInMilliseconds: 10000 # 熔断超时时长：10000ms
 
 
----
-spring:
-  profiles: gateway
-  cloud:
-    gateway:
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowedOrigins: '*'
-            allowedMethods: '*'
 
 
-      routes:
-        - id: user  #这个id只是为了分组
-          uri: lb://USER
-          predicates:
-            - Path=/user/**
-
-        - id: goods
-          uri: lb://GOODS
-          predicates:
-            - Path=/brand/**
-
-
-
-      discovery:
-        locator:
-          lower-case-service-id: true
-          enabled: true
-
-
-
----
-#zuul:
-#  routes:
-#    goods:
-#      path: /goods/**
-#      serviceId: goods
-spring:
-  profiles: zuul
-
-
+#通过3个横线区分不同的配置
 
 zuul:
   routes:
@@ -97,7 +80,7 @@ zuul:
     login:
       path: /login/**
       serviceId: LOGIN
-      stripPrefix: false
+      stripPrefix: true
 
     order:
       path: /order/**
@@ -106,11 +89,13 @@ zuul:
 
 
   #add-host-header: true
-  sensitive-headers: '*'
+  sensitive-headers:
   retryable: false
 
   #忽略路由
   ignored-services: '*'
+  add-proxy-headers: true
+
 
 #是否开启swagger
 swagger:

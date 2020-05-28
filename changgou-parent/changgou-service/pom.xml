@@ -21,6 +21,7 @@
         <module>changgou-server-mq</module>
         <module>changgou-service-schedul</module>
         <module>changgou-service-order</module>
+        <module>changgou-server-coupon</module>
     </modules>
     <dependencies>
         <dependency>

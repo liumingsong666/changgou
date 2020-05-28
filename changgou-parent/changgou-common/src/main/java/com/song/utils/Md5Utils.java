@@ -65,9 +65,9 @@ public class Md5Utils {
     }  
   
     public static void main(String[] args) {  
-        String password = generate("admin");  
+        String password = generate("admin吧vvvvvvvvvvvvvv");
         System.out.println(password);  
-        System.out.println(verify("admin", password));  
+        System.out.println(verify("admin吧vvvvvvvvvvvvvv", password));
     }  
     
 }

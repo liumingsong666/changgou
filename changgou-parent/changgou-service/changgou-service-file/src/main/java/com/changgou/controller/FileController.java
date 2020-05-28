@@ -14,14 +14,22 @@ import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 
 @RestController
 @Api("文件上传接口")
@@ -64,5 +72,22 @@ public class FileController {
         fastFileStorageClient.deleteFile(storePath.getGroup(),storePath.getPath());
         return new Result(true,StatusCode.OK,"成功");
     }
+
+    @RequestMapping("/video")
+    public void video(HttpServletResponse response) throws IOException {
+        FileInputStream fileInputStream = new FileInputStream(new File("/aa.mp4"));
+        BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
+        byte[] bytes = new byte[1024];
+
+        int length =0;
+        ServletOutputStream outputStream = response.getOutputStream();
+        while((length=bufferedInputStream.read(bytes))!=-1){
+            outputStream.write(bytes,0,length);
+        }
+        outputStream.flush();
+
+    }
+
+
 
 }

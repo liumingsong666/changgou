@@ -49,7 +49,7 @@ public class AESUtils {
 
 
     public static void main(String[] args) {
-        String content = "你好，我是松哥";
+        String content = "123456";
         //String password = "xxxx";//密码就是key
         log.info("加密之前：" + content);
         // 加密

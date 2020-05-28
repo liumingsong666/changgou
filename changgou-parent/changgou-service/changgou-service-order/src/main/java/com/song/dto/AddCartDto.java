@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * @author: mingsong.liu
@@ -18,7 +19,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel("购物车修改商品数量类")
-public class AddCartDto {
+public class AddCartDto implements Serializable {
 
     @NotNull(message = "商品不能为空")
     @ApiModelProperty("商品id")
@@ -26,5 +27,6 @@ public class AddCartDto {
 
     @ApiModelProperty("商品更改数量")
     private Integer count = 1;
+
 
 }

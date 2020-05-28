@@ -2,10 +2,13 @@ package com.song.filter;
 
 import com.song.entity.Constant;
 import com.song.cache.CacheService;
+import com.song.utils.IPUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import sun.net.util.IPAddressUtil;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -28,22 +31,27 @@ public class ImageCodeFilter extends OncePerRequestFilter {
 
     private LoginFailHandler loginFailHandler;
 
-    public ImageCodeFilter(CacheService redisCacheServiceImpl,LoginFailHandler loginFailHandler){
+    private String redisImageCode;
+
+
+    public ImageCodeFilter(CacheService redisCacheServiceImpl,LoginFailHandler loginFailHandler,String redisImageCode){
         this.redisCacheServiceImpl=redisCacheServiceImpl;
         this.loginFailHandler=loginFailHandler;
+        this.redisImageCode=redisImageCode;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         String imageCode = httpServletRequest.getParameter("imageCode");
-        String remoteAddr = httpServletRequest.getRemoteAddr();
+        String remoteAddr = IPUtil.getIpAddress(httpServletRequest);
         String uri = httpServletRequest.getRequestURI();
         //存放之前的登录地址
         String refererUri = httpServletRequest.getHeader("Referer");
         //todo 无法在session禁用的时候缓存初始地址
         HttpSession session = httpServletRequest.getSession(false);
-        if("/login/changgou".equals(uri) && "POST".equals(httpServletRequest.getMethod())){
-            Object cacheInfo = redisCacheServiceImpl.getCacheInfo(Constant.redis.REDIS_IMAGE_CODE + remoteAddr);
+
+        if("/changgou".equals(uri) && "POST".equals(httpServletRequest.getMethod())){
+            Object cacheInfo = redisCacheServiceImpl.getCacheInfo(redisImageCode + remoteAddr);
             try {
                 if(StringUtils.isEmpty(imageCode)){
                     throw new InternalAuthenticationServiceException("验证码为空");
